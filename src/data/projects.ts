@@ -56,7 +56,19 @@ export const projects: Project[] = [
     icon: "💑",
     aiContext: "AI-powered conversations",
     demoUrl: "https://qc-rental-analyzer.vercel.app/",
-    slug: "likes-dislikes",
+    slug: "rental property",
+    technologies: ["NLP", "Claude API", "React", "WebSockets"],
+  },
+  {
+    id: "5",
+    title: "Hockey sub finder",
+    description: "Automatically text message hockey subs to find a replacement",
+    longDescription:
+      "With a simple CSV list of available spares, this application will send text messages to spares one at a time until a replacement is found. It responds to each message automatically.",
+    icon: "💑",
+    aiContext: "Ai built auto texter",
+    demoUrl: "https://qc-rental-analyzer.vercel.app/",
+    slug: "sub-finder,
     technologies: ["NLP", "Claude API", "React", "WebSockets"],
   },
 ];
