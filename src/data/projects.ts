@@ -16,7 +16,7 @@ export const projects: Project[] = [
     title: "Vidscene",
     description: "Detect scenes and moments in videos automatically",
     longDescription:
-      "Vidscene uses advanced AI computer vision to automatically detect scene changes, key moments, and transitions in videos. Perfect for content creators who want to quickly identify edit points without manual reviewing.",
+      "Vidscene uses advanced AI computer vision to automatically detect scene changes, key moments, and transitions in videos. I created this to help me split old family videos into scenes.",
     icon: "🎬",
     aiContext: "AI-powered processing",
     demoUrl: "https://vidscene.example.com",
@@ -28,7 +28,7 @@ export const projects: Project[] = [
     title: "PhysioFit",
     description: "AI-powered personalized workout plan generator",
     longDescription:
-      "PhysioFit generates customized workout plans based on your fitness level, goals, and available equipment. The AI adapts the plan based on your progress and feedback to keep you motivated and on track.",
+      "PhysioFit generates customized workout plans based on your fitness level, goals, injuries or limitations and available equipment. The AI adapts the plan based on your progress and feedback to keep you motivated and on track.",
     icon: "💪",
     aiContext: "AI-built tool",
     demoUrl: "https://physiofit.example.com",
@@ -38,9 +38,9 @@ export const projects: Project[] = [
   {
     id: "3",
     title: "Likes + Dislikes",
-    description: "Couple compatibility analyzer using AI conversations",
+    description: "Couple compatibility analyzer",
     longDescription:
-      "An interactive app that helps couples understand their compatibility through thoughtful AI-powered conversations. The AI asks meaningful questions and provides insights based on your responses.",
+      "An interactive app that helps couples understand their intimacy compatibility through a detailed questionnaire. The application provides insights based on the couple's responses.",
     icon: "💑",
     aiContext: "AI-powered conversations",
     demoUrl: "https://likesdislikes.example.com",
