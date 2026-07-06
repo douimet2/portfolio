@@ -47,4 +47,16 @@ export const projects: Project[] = [
     slug: "likes-dislikes",
     technologies: ["NLP", "Claude API", "React", "WebSockets"],
   },
+  {
+    id: "4",
+    title: "Quebec rental property analyzer",
+    description: "Quebec rental property analyzer",
+    longDescription:
+      "Using a simple listing URL, this application performs an analysis of the rental property and provides all key ratios, calculations and even provides a score on whether the property is a good candidate. ",
+    icon: "💑",
+    aiContext: "AI-powered conversations",
+    demoUrl: "https://likesdislikes.example.com",
+    slug: "likes-dislikes",
+    technologies: ["NLP", "Claude API", "React", "WebSockets"],
+  },
 ];
