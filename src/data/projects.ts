@@ -66,8 +66,8 @@ export const projects: Project[] = [
     longDescription:
       "With a simple CSV list of available spares, this application will send text messages to spares one at a time until a replacement is found. It responds to each message automatically.",
     icon: "💑",
-    aiContext: "Ai built auto texter",
-    demoUrl: "https://qc-rental-analyzer.vercel.app/",
+    aiContext: "AI-built auto texter",
+    demoUrl: "",
     slug: "sub-finder,
     technologies: ["NLP", "Claude API", "React", "WebSockets"],
   },
