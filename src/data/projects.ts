@@ -79,7 +79,7 @@ export const projects: Project[] = [
       "Customers can book massages directly on the website. Therapists can configure services, rates, locations, hours for each location, notification settings and more. Mobile friendly.",
     icon: "",
     aiContext: "AI-built website",
-    demoUrl: "",
+    demoUrl: "https://www.kaymassotherapie.com/",
     slug: "sub-finder",
     technologies: ["NLP", "Claude API", "React", "WebSockets"],
   },
