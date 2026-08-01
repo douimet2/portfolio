@@ -68,7 +68,7 @@ export const projects: Project[] = [
     icon: "💑",
     aiContext: "AI-built auto texter",
     demoUrl: "",
-    slug: "sub-finder,
+    slug: "sub-finder",
     technologies: ["NLP", "Claude API", "React", "WebSockets"],
   },
 ];
