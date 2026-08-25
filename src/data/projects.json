@@ -104,9 +104,6 @@
     "slug": "Plants",
     "demoUrl": "https://plantapp-iota.vercel.app/",
     "longDescription": "Ever wondered what your house plant is called? How often you should care for it? What you should do? How about treating a sick plant? ",
-    "technologies": [],
-    "screenshots": [
-      "/projects/Plants/Plants-1787677266154.png"
-    ]
+    "technologies": []
   }
 ]
