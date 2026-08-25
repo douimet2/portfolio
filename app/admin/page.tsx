@@ -22,6 +22,7 @@ export default function AdminPage() {
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   // Load projects on mount
@@ -129,6 +130,50 @@ export default function AdminPage() {
   const handleCancel = () => {
     setFormData(null);
     setEditingId(null);
+  };
+
+  const handleScreenshotUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.currentTarget.files;
+    if (!files || !formData) return;
+
+    try {
+      setUploading(true);
+      const screenshots = formData.screenshots || [];
+
+      for (const file of Array.from(files)) {
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', file);
+        uploadFormData.append('projectSlug', formData.slug);
+
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: uploadFormData,
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to upload file');
+        }
+
+        const data = await response.json();
+        screenshots.push(data.path);
+      }
+
+      setFormData({ ...formData, screenshots });
+      showMessage('Screenshots uploaded successfully!', 'success');
+      e.currentTarget.value = '';
+    } catch (error) {
+      console.error('Error uploading screenshots:', error);
+      showMessage(error instanceof Error ? error.message : 'Failed to upload screenshots', 'error');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeScreenshot = (path: string) => {
+    if (!formData) return;
+    const screenshots = (formData.screenshots || []).filter((s) => s !== path);
+    setFormData({ ...formData, screenshots });
   };
 
   const exportProjects = () => {
@@ -278,6 +323,58 @@ export default function AdminPage() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="React, TypeScript, Node.js"
               />
+            </div>
+
+            {/* Screenshots/Videos */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Screenshots & Videos
+              </label>
+              <div className="mb-4">
+                <input
+                  type="file"
+                  multiple
+                  accept="image/jpeg,image/png,image/webp,video/mp4,video/webm"
+                  onChange={handleScreenshotUpload}
+                  disabled={uploading}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50"
+                />
+                <p className="text-xs text-gray-500 mt-2">
+                  Supported: JPG, PNG, WebP, MP4, WebM (max 50MB each)
+                </p>
+              </div>
+
+              {/* Display uploaded screenshots */}
+              {formData.screenshots && formData.screenshots.length > 0 && (
+                <div>
+                  <p className="text-sm font-medium text-gray-700 mb-3">Uploaded Files:</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {formData.screenshots.map((screenshot) => (
+                      <div key={screenshot} className="relative group">
+                        {screenshot.endsWith('.mp4') || screenshot.endsWith('.webm') ? (
+                          <video
+                            src={screenshot}
+                            className="w-full h-24 object-cover rounded border border-gray-200"
+                          />
+                        ) : (
+                          <img
+                            src={screenshot}
+                            alt="Screenshot"
+                            className="w-full h-24 object-cover rounded border border-gray-200"
+                          />
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => removeScreenshot(screenshot)}
+                          className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Buttons */}

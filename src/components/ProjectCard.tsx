@@ -24,9 +24,22 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           {project.description}
         </p>
 
-        <div className="flex items-center text-blue-600 font-medium text-sm group-hover:gap-2 transition-all">
-          View project
-          <span className="ml-2 group-hover:ml-3 transition-all">→</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center text-blue-600 font-medium text-sm group-hover:gap-2 transition-all">
+            View details
+            <span className="ml-2 group-hover:ml-3 transition-all">→</span>
+          </div>
+          {project.demoUrl && (
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded hover:bg-blue-100 transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Live Demo
+            </a>
+          )}
         </div>
       </div>
     </Link>
