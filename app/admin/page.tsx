@@ -13,6 +13,7 @@ interface Project {
   slug: string;
   longDescription?: string;
   technologies?: string[];
+  screenshots?: string[];
 }
 
 export default function AdminPage() {
