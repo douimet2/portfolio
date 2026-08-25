@@ -118,11 +118,16 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({ base_tree: baseCommit.tree.sha, tree: entries }),
     });
 
+    // [skip ci] keeps Vercel from building on media commits. Nothing rendered
+    // changes until the project itself is saved (that commit does deploy), and
+    // the media is served from raw.githubusercontent rather than the build
+    // output — so a deploy here would be pure noise. Upload as many files as
+    // you like; one deploy happens when you hit Save.
     const label = files.length === 1 ? '1 file' : `${files.length} files`;
     const commit = await ghJson<{ sha: string }>('/git/commits', {
       method: 'POST',
       body: JSON.stringify({
-        message: `Add ${label} to ${projectSlug} media`,
+        message: `Add ${label} to ${projectSlug} media [skip ci]`,
         tree: tree.sha,
         parents: [baseCommitSha],
         author: { name: 'Portfolio Admin', email: 'admin@portfolio.local' },
