@@ -8,7 +8,12 @@
     "aiContext": "AI-powered processing",
     "demoUrl": "https://vidscene.example.com",
     "slug": "vidscene",
-    "technologies": ["Computer Vision", "PyTorch", "FFmpeg", "React"]
+    "technologies": [
+      "Computer Vision",
+      "PyTorch",
+      "FFmpeg",
+      "React"
+    ]
   },
   {
     "id": "2",
@@ -19,7 +24,12 @@
     "aiContext": "AI-built tool",
     "demoUrl": "https://physiofit-planner.vercel.app/",
     "slug": "physiofit",
-    "technologies": ["Machine Learning", "Health APIs", "Next.js", "PostgreSQL"]
+    "technologies": [
+      "Machine Learning",
+      "Health APIs",
+      "Next.js",
+      "PostgreSQL"
+    ]
   },
   {
     "id": "3",
@@ -30,7 +40,12 @@
     "aiContext": "AI-powered conversations",
     "demoUrl": "https://likes-and-limits.vercel.app/",
     "slug": "likes-dislikes",
-    "technologies": ["NLP", "Claude API", "React", "WebSockets"]
+    "technologies": [
+      "NLP",
+      "Claude API",
+      "React",
+      "WebSockets"
+    ]
   },
   {
     "id": "4",
@@ -41,7 +56,12 @@
     "aiContext": "AI-powered conversations",
     "demoUrl": "https://qc-rental-analyzer.vercel.app/",
     "slug": "rental-property",
-    "technologies": ["NLP", "Claude API", "React", "WebSockets"]
+    "technologies": [
+      "NLP",
+      "Claude API",
+      "React",
+      "WebSockets"
+    ]
   },
   {
     "id": "5",
@@ -52,7 +72,12 @@
     "aiContext": "AI-built auto texter",
     "demoUrl": "",
     "slug": "sub-finder",
-    "technologies": ["NLP", "Claude API", "React", "WebSockets"]
+    "technologies": [
+      "NLP",
+      "Claude API",
+      "React",
+      "WebSockets"
+    ]
   },
   {
     "id": "6",
@@ -63,6 +88,22 @@
     "aiContext": "AI-built website",
     "demoUrl": "https://www.kaymassotherapie.com/",
     "slug": "massage-therapist",
-    "technologies": ["NLP", "Claude API", "React", "WebSockets"]
+    "technologies": [
+      "NLP",
+      "Claude API",
+      "React",
+      "WebSockets"
+    ]
+  },
+  {
+    "id": "1787676380884",
+    "title": "House Plants",
+    "description": "Care for your house plants",
+    "icon": "🚀",
+    "aiContext": "AI-powered tool",
+    "slug": "Plants",
+    "demoUrl": "https://plantapp-iota.vercel.app/",
+    "longDescription": "Ever wondered what your house plant is called? How often you should care for it? What you should do? How about treating a sick plant? ",
+    "technologies": []
   }
 ]
