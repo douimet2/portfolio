@@ -2,6 +2,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { projects } from "@/data/projects";
+import { mediaUrl, isVideo } from "@/lib/media";
 import { notFound } from "next/navigation";
 
 interface ProjectPageProps {
@@ -75,16 +76,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="grid md:grid-cols-2 gap-4">
                 {project.screenshots.map((screenshot, index) => (
                   <div key={index} className="rounded-lg overflow-hidden border border-gray-200">
-                    {screenshot.endsWith('.mp4') || screenshot.endsWith('.webm') ? (
+                    {isVideo(screenshot) ? (
                       <video
-                        src={screenshot}
+                        src={mediaUrl(screenshot)}
                         controls
                         className="w-full h-auto bg-gray-100"
                       />
                     ) : (
                       <img
-                        src={screenshot}
-                        alt={`Screenshot ${index + 1}`}
+                        src={mediaUrl(screenshot)}
+                        alt={`${project.title} screenshot ${index + 1}`}
                         className="w-full h-auto"
                       />
                     )}

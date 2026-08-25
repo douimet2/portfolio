@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { mediaUrl, isVideo } from '@/lib/media';
 
 interface Project {
   id: string;
@@ -134,39 +135,48 @@ export default function AdminPage() {
   };
 
   const handleScreenshotUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.currentTarget.files;
-    if (!files || !formData) return;
+    // Capture both before any await — currentTarget is nulled once the handler
+    // returns, so touching it after an await throws.
+    const input = e.currentTarget;
+    const files = Array.from(input.files || []);
+    if (files.length === 0 || !formData) return;
+
+    if (!formData.slug.trim()) {
+      showMessage('Enter a slug first — it decides where the media is stored', 'error');
+      input.value = '';
+      return;
+    }
 
     try {
       setUploading(true);
-      const screenshots = formData.screenshots || [];
 
-      for (const file of Array.from(files)) {
-        const uploadFormData = new FormData();
-        uploadFormData.append('file', file);
-        uploadFormData.append('projectSlug', formData.slug);
+      const uploadFormData = new FormData();
+      files.forEach((file) => uploadFormData.append('files', file));
+      uploadFormData.append('projectSlug', formData.slug);
 
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData,
-        });
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadFormData,
+      });
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error || 'Failed to upload file');
-        }
-
-        const data = await response.json();
-        screenshots.push(data.path);
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to upload files');
       }
 
-      setFormData({ ...formData, screenshots });
-      showMessage('Screenshots uploaded successfully!', 'success');
-      e.currentTarget.value = '';
+      setFormData({
+        ...formData,
+        screenshots: [...(formData.screenshots || []), ...data.paths],
+      });
+      showMessage(
+        `Uploaded ${data.count} file${data.count === 1 ? '' : 's'} — remember to save the project`,
+        'success'
+      );
     } catch (error) {
       console.error('Error uploading screenshots:', error);
-      showMessage(error instanceof Error ? error.message : 'Failed to upload screenshots', 'error');
+      showMessage(error instanceof Error ? error.message : 'Failed to upload files', 'error');
     } finally {
+      input.value = '';
       setUploading(false);
     }
   };
@@ -352,14 +362,14 @@ export default function AdminPage() {
                   <div className="grid grid-cols-2 gap-3">
                     {formData.screenshots.map((screenshot) => (
                       <div key={screenshot} className="relative group">
-                        {screenshot.endsWith('.mp4') || screenshot.endsWith('.webm') ? (
+                        {isVideo(screenshot) ? (
                           <video
-                            src={screenshot}
-                            className="w-full h-24 object-cover rounded border border-gray-200"
+                            src={mediaUrl(screenshot)}
+                            className="w-full h-24 object-cover rounded border border-gray-200 bg-gray-100"
                           />
                         ) : (
                           <img
-                            src={screenshot}
+                            src={mediaUrl(screenshot)}
                             alt="Screenshot"
                             className="w-full h-24 object-cover rounded border border-gray-200"
                           />
