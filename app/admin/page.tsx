@@ -164,10 +164,13 @@ export default function AdminPage() {
         throw new Error(data.error || 'Failed to upload files');
       }
 
-      setFormData({
-        ...formData,
-        screenshots: [...(formData.screenshots || []), ...data.paths],
-      });
+      // Functional update: an upload takes seconds, and every field's onChange
+      // captures formData from its own render. Spreading a closed-over formData
+      // here would silently discard anything typed while the upload was in
+      // flight (and vice versa).
+      setFormData((prev) =>
+        prev ? { ...prev, screenshots: [...(prev.screenshots || []), ...data.paths] } : prev
+      );
       showMessage(
         `Uploaded ${data.count} file${data.count === 1 ? '' : 's'} — remember to save the project`,
         'success'
@@ -182,9 +185,9 @@ export default function AdminPage() {
   };
 
   const removeScreenshot = (path: string) => {
-    if (!formData) return;
-    const screenshots = (formData.screenshots || []).filter((s) => s !== path);
-    setFormData({ ...formData, screenshots });
+    setFormData((prev) =>
+      prev ? { ...prev, screenshots: (prev.screenshots || []).filter((s) => s !== path) } : prev
+    );
   };
 
   const exportProjects = () => {
