@@ -1,3 +1,5 @@
+import projectsData from './projects.json';
+
 export interface Project {
   id: string;
   title: string;
@@ -10,77 +12,4 @@ export interface Project {
   technologies?: string[];
 }
 
-export const projects: Project[] = [
-  {
-    id: "1",
-    title: "Vidscene",
-    description: "Detect scenes and moments in videos automatically",
-    longDescription:
-      "Vidscene uses advanced AI computer vision to automatically detect scene changes, key moments, and transitions in videos. I created this to help me split old family videos into scenes.",
-    icon: "🎬",
-    aiContext: "AI-powered processing",
-    demoUrl: "https://vidscene.example.com",
-    slug: "vidscene",
-    technologies: ["Computer Vision", "PyTorch", "FFmpeg", "React"],
-  },
-  {
-    id: "2",
-    title: "PhysioFit",
-    description: "AI-powered personalized workout plan generator",
-    longDescription:
-      "PhysioFit generates customized workout plans based on your fitness level, goals, injuries or limitations and available equipment. The AI adapts the plan based on your progress and feedback to keep you motivated and on track.",
-    icon: "💪",
-    aiContext: "AI-built tool",
-    demoUrl: "https://physiofit-planner.vercel.app/",
-    slug: "physiofit",
-    technologies: ["Machine Learning", "Health APIs", "Next.js", "PostgreSQL"],
-  },
-  {
-    id: "3",
-    title: "Likes + Dislikes",
-    description: "Couple compatibility analyzer",
-    longDescription:
-      "An interactive app that helps couples understand their intimacy compatibility through a detailed questionnaire. The application provides insights based on the couple's responses.",
-    icon: "💑",
-    aiContext: "AI-powered conversations",
-    demoUrl: "https://likes-and-limits.vercel.app/",
-    slug: "likes-dislikes",
-    technologies: ["NLP", "Claude API", "React", "WebSockets"],
-  },
-  {
-    id: "4",
-    title: "Quebec rental property analyzer",
-    description: "Quebec rental property analyzer",
-    longDescription:
-      "Using a simple listing URL, this application performs an analysis of the rental property and provides all key ratios, calculations and even provides a score on whether the property is a good candidate. ",
-    icon: "🏢",
-    aiContext: "AI-powered conversations",
-    demoUrl: "https://qc-rental-analyzer.vercel.app/",
-    slug: "rental-property",
-    technologies: ["NLP", "Claude API", "React", "WebSockets"],
-  },
-  {
-    id: "5",
-    title: "Hockey sub finder",
-    description: "Automatically text message hockey subs to find a replacement",
-    longDescription:
-      "With a simple CSV list of available spares, this application will send text messages to spares one at a time until a replacement is found. It responds to each message automatically.",
-    icon: "🏒",
-    aiContext: "AI-built auto texter",
-    demoUrl: "",
-    slug: "sub-finder",
-    technologies: ["NLP", "Claude API", "React", "WebSockets"],
-  },
-  {
-    id: "6",
-    title: "Massage therapist website",
-    description: "Built from scratch. Full booking backend with automated notifications.",
-    longDescription:
-      "Customers can book massages directly on the website. Therapists can configure services, rates, locations, hours for each location, notification settings and more. Mobile friendly.",
-    icon: "💆",
-    aiContext: "AI-built website",
-    demoUrl: "https://www.kaymassotherapie.com/",
-    slug: "massage-therapist",
-    technologies: ["NLP", "Claude API", "React", "WebSockets"],
-  },
-];
+export const projects: Project[] = projectsData;

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { projects as initialProjects } from '@/data/projects';
 
 interface Project {
   id: string;
@@ -17,14 +16,41 @@ interface Project {
 }
 
 export default function AdminPage() {
-  const [projects, setProjects] = useState<Project[]>(initialProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Project | null>(null);
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // Load projects on mount
+  useEffect(() => {
+    loadProjects();
+  }, []);
+
+  const loadProjects = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/projects');
+      const data = await response.json();
+      setProjects(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Error loading projects:', error);
+      showMessage('Error loading projects', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const showMessage = (text: string, type: 'success' | 'error') => {
+    setMessage({ type, text });
+    setTimeout(() => setMessage(null), 3000);
+  };
 
   const handleNewProject = () => {
     setFormData({
-      id: String(projects.length + 1),
+      id: String(Date.now()),
       title: '',
       description: '',
       icon: '🚀',
@@ -42,22 +68,61 @@ export default function AdminPage() {
     setEditingId(project.id);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData) return;
 
-    if (editingId === 'new') {
-      setProjects([...projects, formData]);
-    } else {
-      setProjects(projects.map((p) => (p.id === editingId ? formData : p)));
+    if (!formData.title || !formData.slug) {
+      showMessage('Title and slug are required', 'error');
+      return;
     }
 
-    setFormData(null);
-    setEditingId(null);
+    try {
+      setSaving(true);
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to save project');
+      }
+
+      await loadProjects();
+      setFormData(null);
+      setEditingId(null);
+      showMessage('Project saved successfully!', 'success');
+    } catch (error) {
+      console.error('Error saving project:', error);
+      showMessage(error instanceof Error ? error.message : 'Failed to save project', 'error');
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this project?')) {
-      setProjects(projects.filter((p) => p.id !== id));
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this project?')) return;
+
+    try {
+      setSaving(true);
+      const response = await fetch('/api/projects', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete project');
+      }
+
+      await loadProjects();
+      showMessage('Project deleted successfully!', 'success');
+    } catch (error) {
+      console.error('Error deleting project:', error);
+      showMessage('Failed to delete project', 'error');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -77,6 +142,18 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-white">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+          {message && (
+            <div
+              className={`mb-6 p-4 rounded-lg ${
+                message.type === 'success'
+                  ? 'bg-green-50 text-green-800 border border-green-200'
+                  : 'bg-red-50 text-red-800 border border-red-200'
+              }`}
+            >
+              {message.text}
+            </div>
+          )}
+
           <Link href="/" className="text-blue-600 hover:text-blue-700 mb-6 inline-block">
             ← Back to portfolio
           </Link>
@@ -208,14 +285,16 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={handleSave}
-                className="flex-1 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                disabled={saving}
+                className="flex-1 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {editingId === 'new' ? 'Create Project' : 'Save Changes'}
+                {saving ? 'Saving...' : editingId === 'new' ? 'Create Project' : 'Save Changes'}
               </button>
               <button
                 type="button"
                 onClick={handleCancel}
-                className="flex-1 px-6 py-3 bg-gray-300 text-gray-900 font-medium rounded-lg hover:bg-gray-400 transition-colors"
+                disabled={saving}
+                className="flex-1 px-6 py-3 bg-gray-300 text-gray-900 font-medium rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>
@@ -229,6 +308,18 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+        {message && (
+          <div
+            className={`mb-6 p-4 rounded-lg ${
+              message.type === 'success'
+                ? 'bg-green-50 text-green-800 border border-green-200'
+                : 'bg-red-50 text-red-800 border border-red-200'
+            }`}
+          >
+            {message.text}
+          </div>
+        )}
+
         <Link href="/" className="text-blue-600 hover:text-blue-700 mb-6 inline-block">
           ← Back to portfolio
         </Link>
@@ -237,15 +328,25 @@ export default function AdminPage() {
           <h1 className="text-3xl font-bold text-gray-900">Project Manager</h1>
           <button
             onClick={handleNewProject}
-            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            disabled={loading}
+            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             + Add Project
           </button>
         </div>
 
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600">Loading projects...</p>
+          </div>
+        ) : (
+          <>
         {/* Projects List */}
         <div className="space-y-4 mb-8">
-          {projects.map((project) => (
+          {projects.length === 0 ? (
+            <p className="text-gray-600 py-8">No projects yet. Create one to get started!</p>
+          ) : (
+            projects.map((project) => (
             <div
               key={project.id}
               className="flex items-center justify-between p-6 bg-gray-50 border border-gray-200 rounded-lg"
@@ -263,20 +364,25 @@ export default function AdminPage() {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleEdit(project)}
-                  className="px-4 py-2 bg-blue-100 text-blue-700 font-medium rounded hover:bg-blue-200 transition-colors"
+                  disabled={saving}
+                  className="px-4 py-2 bg-blue-100 text-blue-700 font-medium rounded hover:bg-blue-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(project.id)}
-                  className="px-4 py-2 bg-red-100 text-red-700 font-medium rounded hover:bg-red-200 transition-colors"
+                  disabled={saving}
+                  className="px-4 py-2 bg-red-100 text-red-700 font-medium rounded hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Delete
                 </button>
               </div>
             </div>
-          ))}
+            ))
+          )}
         </div>
+          </>
+        )}
 
         {/* Export Section */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
