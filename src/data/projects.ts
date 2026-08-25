@@ -41,7 +41,7 @@ export const projects: Project[] = [
     description: "Couple compatibility analyzer",
     longDescription:
       "An interactive app that helps couples understand their intimacy compatibility through a detailed questionnaire. The application provides insights based on the couple's responses.",
-    icon: "",
+    icon: "💑",
     aiContext: "AI-powered conversations",
     demoUrl: "https://likes-and-limits.vercel.app/",
     slug: "likes-dislikes",
@@ -53,10 +53,10 @@ export const projects: Project[] = [
     description: "Quebec rental property analyzer",
     longDescription:
       "Using a simple listing URL, this application performs an analysis of the rental property and provides all key ratios, calculations and even provides a score on whether the property is a good candidate. ",
-    icon: "",
+    icon: "🏢",
     aiContext: "AI-powered conversations",
     demoUrl: "https://qc-rental-analyzer.vercel.app/",
-    slug: "rental property",
+    slug: "rental-property",
     technologies: ["NLP", "Claude API", "React", "WebSockets"],
   },
   {
@@ -65,22 +65,22 @@ export const projects: Project[] = [
     description: "Automatically text message hockey subs to find a replacement",
     longDescription:
       "With a simple CSV list of available spares, this application will send text messages to spares one at a time until a replacement is found. It responds to each message automatically.",
-    icon: "",
+    icon: "🏒",
     aiContext: "AI-built auto texter",
     demoUrl: "",
     slug: "sub-finder",
     technologies: ["NLP", "Claude API", "React", "WebSockets"],
   },
-    {
-    id: "5",
+  {
+    id: "6",
     title: "Massage therapist website",
     description: "Built from scratch. Full booking backend with automated notifications.",
     longDescription:
       "Customers can book massages directly on the website. Therapists can configure services, rates, locations, hours for each location, notification settings and more. Mobile friendly.",
-    icon: "",
+    icon: "💆",
     aiContext: "AI-built website",
     demoUrl: "https://www.kaymassotherapie.com/",
-    slug: "sub-finder",
+    slug: "massage-therapist",
     technologies: ["NLP", "Claude API", "React", "WebSockets"],
   },
 ];
