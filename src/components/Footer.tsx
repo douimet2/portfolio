@@ -11,14 +11,14 @@ export default function Footer() {
             </p>
           </div>
           <a
-            href="mailto:contact@example.com"
+            href="mailto:danouimet@gmail.com"
             className="flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
           >
             Get in touch
           </a>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-100 text-center text-sm text-gray-500">
-          <p>© 2024 AI Portfolio. All projects available on GitHub.</p>
+          <p>© 2026 AI Portfolio. All projects available on GitHub.</p>
         </div>
       </div>
     </footer>
