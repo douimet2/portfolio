@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { mediaUrl, isVideo } from '@/lib/media';
 
@@ -27,10 +27,28 @@ export default function AdminPage() {
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+  // Mirrors formData so async handlers can read the latest value instead of the
+  // one captured in their render closure.
+  const formDataRef = useRef<Project | null>(null);
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
+
   // Load projects on mount
   useEffect(() => {
     loadProjects();
   }, []);
+
+  const persistProject = async (project: Project) => {
+    const response = await fetch('/api/projects', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(project),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Failed to save project');
+    return data;
+  };
 
   const loadProjects = async () => {
     try {
@@ -81,17 +99,7 @@ export default function AdminPage() {
 
     try {
       setSaving(true);
-      const response = await fetch('/api/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to save project');
-      }
-
+      await persistProject(formDataRef.current || formData);
       await loadProjects();
       setFormData(null);
       setEditingId(null);
@@ -164,17 +172,32 @@ export default function AdminPage() {
         throw new Error(data.error || 'Failed to upload files');
       }
 
-      // Functional update: an upload takes seconds, and every field's onChange
-      // captures formData from its own render. Spreading a closed-over formData
-      // here would silently discard anything typed while the upload was in
-      // flight (and vice versa).
-      setFormData((prev) =>
-        prev ? { ...prev, screenshots: [...(prev.screenshots || []), ...data.paths] } : prev
-      );
-      showMessage(
-        `Uploaded ${data.count} file${data.count === 1 ? '' : 's'} — remember to save the project`,
-        'success'
-      );
+      // Read through the ref, not the render closure: an upload takes seconds,
+      // and anything typed (or a previous upload that landed) while this was in
+      // flight would otherwise be discarded by spreading stale state.
+      const base = formDataRef.current || formData;
+      const next: Project = {
+        ...base,
+        screenshots: [...(base.screenshots || []), ...data.paths],
+      };
+      setFormData(next);
+
+      // Persist straight away. The files are already committed to Git, so if the
+      // project is never saved they are orphaned in the repo and invisible on the
+      // site — which is exactly how uploads appeared to "not show up" before.
+      if (next.title.trim() && next.slug.trim()) {
+        await persistProject(next);
+        await loadProjects();
+        showMessage(
+          `Uploaded and saved ${data.count} file${data.count === 1 ? '' : 's'}`,
+          'success'
+        );
+      } else {
+        showMessage(
+          `Uploaded ${data.count} file${data.count === 1 ? '' : 's'} — add a title, then Save`,
+          'success'
+        );
+      }
     } catch (error) {
       console.error('Error uploading screenshots:', error);
       showMessage(error instanceof Error ? error.message : 'Failed to upload files', 'error');

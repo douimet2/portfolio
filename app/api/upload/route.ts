@@ -10,8 +10,12 @@ const VALID_TYPES = [
   'image/png',
   'image/webp',
   'image/gif',
+  'image/avif',
+  'image/heic',
+  'image/heif',
   'video/mp4',
   'video/webm',
+  'video/quicktime', // .mov — what macOS screen recording produces
 ];
 const MAX_BYTES = 50 * 1024 * 1024;
 
@@ -83,9 +87,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Create one blob per file, then a single tree/commit — so N uploads produce
-    // one commit and one redeploy instead of N of each.
+    // one commit and one redeploy instead of N of each. The index disambiguates
+    // the filename: these run in parallel, so Date.now() frequently returns the
+    // same millisecond and two same-named files would collide into one tree path.
     const entries = await Promise.all(
-      files.map(async (file) => {
+      files.map(async (file, index) => {
         const buffer = Buffer.from(await file.arrayBuffer());
         const { sha } = await ghJson<{ sha: string }>('/git/blobs', {
           method: 'POST',
@@ -98,7 +104,7 @@ export async function POST(request: NextRequest) {
         const dot = file.name.lastIndexOf('.');
         const stem = sanitize(dot > 0 ? file.name.slice(0, dot) : file.name) || 'media';
         const ext = dot > 0 ? sanitize(file.name.slice(dot + 1)).toLowerCase() : 'bin';
-        const filename = `${Date.now()}-${stem}.${ext}`;
+        const filename = `${Date.now()}-${index}-${stem}.${ext}`;
 
         return {
           path: `public/projects/${projectSlug}/${filename}`,
@@ -109,35 +115,49 @@ export async function POST(request: NextRequest) {
       })
     );
 
-    const ref = await ghJson<{ object: { sha: string } }>(`/git/ref/heads/${BRANCH}`);
-    const baseCommitSha = ref.object.sha;
-    const baseCommit = await ghJson<{ tree: { sha: string } }>(`/git/commits/${baseCommitSha}`);
-
-    const tree = await ghJson<{ sha: string }>('/git/trees', {
-      method: 'POST',
-      body: JSON.stringify({ base_tree: baseCommit.tree.sha, tree: entries }),
-    });
-
-    // [skip ci] keeps Vercel from building on media commits. Nothing rendered
-    // changes until the project itself is saved (that commit does deploy), and
-    // the media is served from raw.githubusercontent rather than the build
-    // output — so a deploy here would be pure noise. Upload as many files as
-    // you like; one deploy happens when you hit Save.
+    // [skip ci] keeps Vercel from building on media commits. The media is served
+    // from raw.githubusercontent rather than the build output, and the save that
+    // follows carries its own deploy — so a build here would be pure noise.
     const label = files.length === 1 ? '1 file' : `${files.length} files`;
-    const commit = await ghJson<{ sha: string }>('/git/commits', {
-      method: 'POST',
-      body: JSON.stringify({
-        message: `Add ${label} to ${projectSlug} media [skip ci]`,
-        tree: tree.sha,
-        parents: [baseCommitSha],
-        author: { name: 'Portfolio Admin', email: 'admin@portfolio.local' },
-      }),
-    });
 
-    await ghJson(`/git/refs/heads/${BRANCH}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ sha: commit.sha }),
-    });
+    // The ref can move under us (a concurrent save, or a second upload), which
+    // makes the PATCH a non-fast-forward. Rebuild on the new head and retry
+    // rather than failing the upload.
+    let lastError: unknown;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const ref = await ghJson<{ object: { sha: string } }>(`/git/ref/heads/${BRANCH}`);
+        const baseCommitSha = ref.object.sha;
+        const baseCommit = await ghJson<{ tree: { sha: string } }>(`/git/commits/${baseCommitSha}`);
+
+        const tree = await ghJson<{ sha: string }>('/git/trees', {
+          method: 'POST',
+          body: JSON.stringify({ base_tree: baseCommit.tree.sha, tree: entries }),
+        });
+
+        const commit = await ghJson<{ sha: string }>('/git/commits', {
+          method: 'POST',
+          body: JSON.stringify({
+            message: `Add ${label} to ${projectSlug} media [skip ci]`,
+            tree: tree.sha,
+            parents: [baseCommitSha],
+            author: { name: 'Portfolio Admin', email: 'admin@portfolio.local' },
+          }),
+        });
+
+        await ghJson(`/git/refs/heads/${BRANCH}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ sha: commit.sha }),
+        });
+
+        lastError = undefined;
+        break;
+      } catch (err) {
+        lastError = err;
+        await new Promise((r) => setTimeout(r, 300 * (attempt + 1)));
+      }
+    }
+    if (lastError) throw lastError;
 
     // Point at raw.githubusercontent rather than /public. Vercel bakes public/
     // into the build, so a just-committed file 404s until the next deploy
