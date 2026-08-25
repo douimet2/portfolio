@@ -35,7 +35,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded hover:bg-blue-100 transition-colors"
-              onClick={(e) => e.stopPropagation()}
             >
               Live Demo
             </a>
