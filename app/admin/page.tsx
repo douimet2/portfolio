@@ -22,6 +22,10 @@ export default function AdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Project | null>(null);
+  // The ref is authoritative: onDrop would otherwise read dragIndex from its
+  // render closure, which is stale if React has not re-rendered since dragstart.
+  // The state duplicate exists only to drive the drag styling.
+  const dragIndexRef = useRef<number | null>(null);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
   const [zoomIndex, setZoomIndex] = useState<number | null>(null);
@@ -405,21 +409,35 @@ export default function AdminPage() {
                       <div
                         key={screenshot}
                         draggable
-                        onDragStart={() => setDragIndex(index)}
+                        onDragStart={(e) => {
+                          dragIndexRef.current = index;
+                          setDragIndex(index);
+                          // Firefox refuses to start a drag unless data is set.
+                          e.dataTransfer.effectAllowed = 'move';
+                          try {
+                            e.dataTransfer.setData('text/plain', String(index));
+                          } catch {
+                            /* some browsers lock dataTransfer outside a real drag */
+                          }
+                        }}
                         onDragOver={(e) => {
                           e.preventDefault();
-                          setDropIndex(index);
+                          e.dataTransfer.dropEffect = 'move';
+                          setDropIndex((d) => (d === index ? d : index));
                         }}
                         onDragLeave={() => setDropIndex((d) => (d === index ? null : d))}
                         onDrop={(e) => {
                           e.preventDefault();
-                          if (dragIndex !== null && dragIndex !== index) {
-                            reorderScreenshot(dragIndex, index);
+                          const from = dragIndexRef.current;
+                          if (from !== null && from !== index) {
+                            reorderScreenshot(from, index);
                           }
+                          dragIndexRef.current = null;
                           setDragIndex(null);
                           setDropIndex(null);
                         }}
                         onDragEnd={() => {
+                          dragIndexRef.current = null;
                           setDragIndex(null);
                           setDropIndex(null);
                         }}
