@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { mediaUrl, isVideo } from '@/lib/media';
+import Lightbox from '@/components/Lightbox';
 
 interface Project {
   id: string;
@@ -21,7 +22,9 @@ export default function AdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Project | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [dropIndex, setDropIndex] = useState<number | null>(null);
+  const [zoomIndex, setZoomIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -213,11 +216,15 @@ export default function AdminPage() {
     );
   };
 
-  const exportProjects = () => {
-    const code = `export const projects: Project[] = ${JSON.stringify(projects, null, 2)};`;
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const reorderScreenshot = (from: number, to: number) => {
+    setFormData((prev) => {
+      if (!prev) return prev;
+      const shots = [...(prev.screenshots || [])];
+      if (from < 0 || to < 0 || from >= shots.length || to >= shots.length) return prev;
+      const [moved] = shots.splice(from, 1);
+      shots.splice(to, 0, moved);
+      return { ...prev, screenshots: shots };
+    });
   };
 
   if (editingId && formData) {
@@ -371,42 +378,117 @@ export default function AdminPage() {
                 <input
                   type="file"
                   multiple
-                  accept="image/jpeg,image/png,image/webp,video/mp4,video/webm"
+                  accept="image/jpeg,image/png,image/webp,image/gif,image/avif,image/heic,image/heif,video/mp4,video/webm,video/quicktime"
                   onChange={handleScreenshotUpload}
                   disabled={uploading}
                   className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50"
                 />
                 <p className="text-xs text-gray-500 mt-2">
-                  Supported: JPG, PNG, WebP, MP4, WebM (max 50MB each)
+                  {uploading
+                    ? 'Uploading…'
+                    : 'JPG, PNG, WebP, GIF, HEIC, MP4, WebM, MOV (max 50MB each)'}
                 </p>
               </div>
 
               {/* Display uploaded screenshots */}
               {formData.screenshots && formData.screenshots.length > 0 && (
                 <div>
-                  <p className="text-sm font-medium text-gray-700 mb-3">Uploaded Files:</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {formData.screenshots.map((screenshot) => (
-                      <div key={screenshot} className="relative group">
+                  <p className="text-sm font-medium text-gray-700 mb-1">
+                    Uploaded Files ({formData.screenshots.length})
+                  </p>
+                  <p className="text-xs text-gray-500 mb-3">
+                    Drag a tile to reorder — this is the order visitors see. Click one to view it
+                    larger. Save when the order looks right.
+                  </p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {formData.screenshots.map((screenshot, index) => (
+                      <div
+                        key={screenshot}
+                        draggable
+                        onDragStart={() => setDragIndex(index)}
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          setDropIndex(index);
+                        }}
+                        onDragLeave={() => setDropIndex((d) => (d === index ? null : d))}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          if (dragIndex !== null && dragIndex !== index) {
+                            reorderScreenshot(dragIndex, index);
+                          }
+                          setDragIndex(null);
+                          setDropIndex(null);
+                        }}
+                        onDragEnd={() => {
+                          setDragIndex(null);
+                          setDropIndex(null);
+                        }}
+                        className={`relative group rounded border-2 transition-all cursor-grab active:cursor-grabbing ${
+                          dragIndex === index
+                            ? 'opacity-40 border-blue-400'
+                            : dropIndex === index
+                              ? 'border-blue-500 ring-2 ring-blue-200'
+                              : 'border-transparent'
+                        }`}
+                      >
+                        {/* draggable={false} on the media itself: browsers give
+                            images their own native drag, which hijacks the tile's. */}
                         {isVideo(screenshot) ? (
                           <video
                             src={mediaUrl(screenshot)}
-                            className="w-full h-24 object-cover rounded border border-gray-200 bg-gray-100"
+                            draggable={false}
+                            className="w-full h-24 object-cover rounded border border-gray-200 bg-gray-100 pointer-events-none"
                           />
                         ) : (
                           <img
                             src={mediaUrl(screenshot)}
-                            alt="Screenshot"
+                            alt={`Screenshot ${index + 1}`}
+                            draggable={false}
                             className="w-full h-24 object-cover rounded border border-gray-200"
                           />
                         )}
+
+                        <span className="absolute top-1 left-1 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900/70 text-[10px] font-semibold text-white">
+                          {index + 1}
+                        </span>
+
+                        <div className="absolute inset-x-1 bottom-1 z-10 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex gap-1">
+                            <button
+                              type="button"
+                              onClick={() => reorderScreenshot(index, index - 1)}
+                              disabled={index === 0}
+                              aria-label="Move earlier"
+                              className="rounded bg-gray-900/70 px-1.5 py-0.5 text-xs text-white disabled:opacity-30 hover:bg-gray-900"
+                            >
+                              ←
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => reorderScreenshot(index, index + 1)}
+                              disabled={index === (formData.screenshots?.length ?? 0) - 1}
+                              aria-label="Move later"
+                              className="rounded bg-gray-900/70 px-1.5 py-0.5 text-xs text-white disabled:opacity-30 hover:bg-gray-900"
+                            >
+                              →
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeScreenshot(screenshot)}
+                            className="rounded bg-red-500 px-1.5 py-0.5 text-xs text-white hover:bg-red-600"
+                          >
+                            Remove
+                          </button>
+                        </div>
+
+                        {/* Sits under the controls so it never eats their clicks. */}
                         <button
                           type="button"
-                          onClick={() => removeScreenshot(screenshot)}
-                          className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          Remove
-                        </button>
+                          onClick={() => setZoomIndex(index)}
+                          aria-label={`View screenshot ${index + 1} larger`}
+                          className="absolute inset-0 z-0 cursor-zoom-in rounded"
+                        />
                       </div>
                     ))}
                   </div>
@@ -434,6 +516,14 @@ export default function AdminPage() {
               </button>
             </div>
           </form>
+
+          <Lightbox
+            items={formData.screenshots || []}
+            index={zoomIndex}
+            onClose={() => setZoomIndex(null)}
+            onNavigate={setZoomIndex}
+            label={formData.title}
+          />
         </div>
       </div>
     );
@@ -518,21 +608,6 @@ export default function AdminPage() {
           </>
         )}
 
-        {/* Export Section */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Export & Deploy</h2>
-          <p className="text-gray-700 mb-4">
-            Click below to copy the projects array to your clipboard. Then paste it into
-            <code className="bg-gray-200 px-2 py-1 rounded text-sm mx-1">src/data/projects.ts</code>
-            and commit to GitHub for automatic Vercel deployment.
-          </p>
-          <button
-            onClick={exportProjects}
-            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            {copied ? '✓ Copied to clipboard' : 'Copy projects.ts code'}
-          </button>
-        </div>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { projects } from "@/data/projects";
-import { mediaUrl, isVideo } from "@/lib/media";
+import ScreenshotGallery from "@/components/ScreenshotGallery";
 import { notFound } from "next/navigation";
 
 interface ProjectPageProps {
@@ -73,25 +73,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <section className="py-12 sm:py-16 border-b border-gray-200">
             <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Screenshots & Videos</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                {project.screenshots.map((screenshot, index) => (
-                  <div key={index} className="rounded-lg overflow-hidden border border-gray-200">
-                    {isVideo(screenshot) ? (
-                      <video
-                        src={mediaUrl(screenshot)}
-                        controls
-                        className="w-full h-auto bg-gray-100"
-                      />
-                    ) : (
-                      <img
-                        src={mediaUrl(screenshot)}
-                        alt={`${project.title} screenshot ${index + 1}`}
-                        className="w-full h-auto"
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
+              <ScreenshotGallery screenshots={project.screenshots} title={project.title} />
             </div>
           </section>
         )}
