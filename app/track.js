@@ -21,15 +21,15 @@ export function track(eventType, meta) {
     session_id: sessionId(),
     meta,
   });
-  // credentials: "omit" is required — a wildcard Access-Control-Allow-Origin
-  // (which /api/track uses, since any app's origin may call it) is rejected
-  // by browsers if the request carries credentials, and sendBeacon() sends
-  // credentials cross-origin with no way to opt out, so plain fetch it is.
+  // No sendBeacon (it always sends credentials cross-origin, no way to opt
+  // out) and no `keepalive: true` either — Chromium has a long-standing bug
+  // where fetch() with keepalive ignores credentials: "omit" and sends them
+  // anyway. Either one gets rejected by a wildcard Access-Control-Allow-Origin
+  // (which /api/track must use, since any app's origin may call it).
   fetch(TRACK_URL, {
     method: "POST",
     body: payload,
     headers: { "Content-Type": "application/json" },
     credentials: "omit",
-    keepalive: true,
   }).catch(() => {});
 }
