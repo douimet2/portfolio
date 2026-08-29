@@ -21,14 +21,15 @@ export function track(eventType, meta) {
     session_id: sessionId(),
     meta,
   });
-  const blob = new Blob([payload], { type: "application/json" });
-  const sent = navigator.sendBeacon?.(TRACK_URL, blob);
-  if (!sent) {
-    fetch(TRACK_URL, {
-      method: "POST",
-      body: payload,
-      headers: { "Content-Type": "application/json" },
-      keepalive: true,
-    }).catch(() => {});
-  }
+  // credentials: "omit" is required — a wildcard Access-Control-Allow-Origin
+  // (which /api/track uses, since any app's origin may call it) is rejected
+  // by browsers if the request carries credentials, and sendBeacon() sends
+  // credentials cross-origin with no way to opt out, so plain fetch it is.
+  fetch(TRACK_URL, {
+    method: "POST",
+    body: payload,
+    headers: { "Content-Type": "application/json" },
+    credentials: "omit",
+    keepalive: true,
+  }).catch(() => {});
 }
