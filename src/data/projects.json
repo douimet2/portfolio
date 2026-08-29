@@ -53,11 +53,11 @@
       "WebSockets"
     ],
     "screenshots": [
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603550-0-Screenshot-2026-08-25-at-1.54.47-PM.png",
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603547-1-Screenshot-2026-08-25-at-1.54.14-PM.png",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603623-4-Screenshot-2026-08-25-at-1.53.47-PM.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603551-2-Screenshot-2026-08-25-at-1.54.08-PM.png",
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603622-3-Screenshot-2026-08-25-at-1.54.00-PM.png",
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603623-4-Screenshot-2026-08-25-at-1.53.47-PM.png"
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603547-1-Screenshot-2026-08-25-at-1.54.14-PM.png",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603550-0-Screenshot-2026-08-25-at-1.54.47-PM.png",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603622-3-Screenshot-2026-08-25-at-1.54.00-PM.png"
     ]
   },
   {
@@ -139,6 +139,20 @@
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/Plants/Plants-1787677263006.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/Plants/Plants-1787677259170.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/Plants/Plants-1787677260139.png"
+    ]
+  },
+  {
+    "id": "1787932216417",
+    "title": "Wheel of Nope",
+    "description": "Get advice on how you should handle requests for favours",
+    "icon": "",
+    "aiContext": "AI-powered tool",
+    "slug": "WheelOfNope",
+    "demoUrl": "https://the-no-ball.vercel.app/",
+    "longDescription": "",
+    "technologies": [],
+    "screenshots": [
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/WheelOfNope/1787932274045-0-Screenshot-2026-08-28-at-11.51.04-AM.png"
     ]
   }
 ]
