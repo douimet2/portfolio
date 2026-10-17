@@ -1,18 +1,46 @@
-import Header from "@/components/Header";
+import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
-import Gallery from "@/components/Gallery";
-import Footer from "@/components/Footer";
-import { projects } from "@/data/projects";
+import Chapter from "@/components/Chapter";
+import AppIndex, { type IndexApp } from "@/components/AppIndex";
+import About from "@/components/About";
+import Footer, { Contact } from "@/components/Footer";
+import { chapterOf, chapters, coverOf, orderedProjects, startedLabel } from "@/data/projects";
+import { mediaUrl } from "@/lib/media";
 
 export default function Home() {
+  const indexApps: IndexApp[] = orderedProjects.map((p) => {
+    const chapter = chapterOf(p);
+    const cover = coverOf(p);
+    return {
+      slug: p.slug,
+      title: p.title,
+      description: p.description,
+      status: p.status ?? "Live",
+      started: startedLabel(p, true),
+      chapter: chapter.id,
+      cover: cover ? mediaUrl(cover) : undefined,
+      field: chapter.field,
+      ink: chapter.ink,
+    };
+  });
+
+  const filters = [{ id: "all", label: "All" }, ...chapters.map((c) => ({ id: c.id, label: c.title }))];
+
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      <Header />
-      <main className="flex-1">
+    <>
+      <SiteHeader hideOverHero />
+      <main>
         <Hero />
-        <Gallery projects={projects} />
+        {chapters.map((c) => (
+          <Chapter key={c.id} chapter={c} />
+        ))}
+        <section id="apps" className="index" data-bg="var(--bg)" data-ink="var(--ink)" aria-label="Every app">
+          <AppIndex apps={indexApps} filters={filters} />
+        </section>
+        <About />
+        <Contact />
       </main>
       <Footer />
-    </div>
+    </>
   );
 }

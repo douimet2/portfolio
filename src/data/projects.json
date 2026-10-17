@@ -1,36 +1,83 @@
 [
   {
-    "id": "1",
-    "title": "Vidscene",
-    "description": "Detect scenes and moments in videos automatically",
-    "longDescription": "Vidscene uses advanced AI computer vision to automatically detect scene changes, key moments, and transitions in videos. I created this to help me split old family videos into scenes.",
-    "icon": "🎬",
-    "aiContext": "AI-powered processing",
-    "demoUrl": "https://vidscene.example.com",
-    "slug": "vidscene",
+    "id": "6",
+    "title": "Kay Massothérapie",
+    "description": "Online booking for a massage therapist who works in three places.",
+    "longDescription": "Clients book a massage at the clinic, at a hotel or at home, in French or English. Each location keeps its own weekly hours, home visits get a travel fee by distance, bookings never overlap, and same-day requests wait for the therapist to approve them. She sets services, rates, closures and notifications herself from an admin page.",
+    "icon": "💆",
+    "aiContext": "AI-built website",
+    "demoUrl": "https://www.kaymassotherapie.com/",
+    "slug": "massage-therapist",
+    "chapter": "clients",
+    "started": "2026-07",
+    "status": "Live",
     "technologies": [
-      "Computer Vision",
-      "PyTorch",
-      "FFmpeg",
-      "React"
+      "Next.js",
+      "Supabase",
+      "next-intl",
+      "Claude API",
+      "Vercel"
+    ],
+    "screenshots": [
+      "/projects/massage-therapist/capture/desktop-1-home.jpg",
+      "/projects/massage-therapist/capture/loop.mp4",
+      "/projects/massage-therapist/capture/desktop-2-services.jpg",
+      "/projects/massage-therapist/capture/desktop-3-reviews.jpg",
+      "/projects/massage-therapist/capture/desktop-4-booking.jpg",
+      "/projects/massage-therapist/capture/phone-1.jpg"
+    ]
+  },
+  {
+    "id": "1792240000001",
+    "title": "Physiothérapie Saint-Lazare",
+    "description": "A new website for a physio clinic, with a bot that answers patients.",
+    "longDescription": "A clinic website rebuilt from scratch, followed by an SEO audit and its fixes. PhysioBot, built on Claude, answers patients’ questions about the clinic and its services. It runs on a review address, closed to search engines, until the clinic moves its domain.",
+    "icon": "",
+    "aiContext": "",
+    "demoUrl": "https://physio-saint-lazare.vercel.app/",
+    "slug": "physio-saint-lazare",
+    "chapter": "clients",
+    "started": "2026-09",
+    "status": "Live",
+    "technologies": [
+      "Next.js",
+      "Claude API",
+      "Vercel"
+    ],
+    "screenshots": [
+      "/projects/physio-saint-lazare/capture/desktop-1-home.jpg",
+      "/projects/physio-saint-lazare/capture/loop.mp4",
+      "/projects/physio-saint-lazare/capture/desktop-2-services.jpg",
+      "/projects/physio-saint-lazare/capture/desktop-3-team.jpg",
+      "/projects/physio-saint-lazare/capture/desktop-4-clinic.jpg",
+      "/projects/physio-saint-lazare/capture/phone-1.jpg"
     ]
   },
   {
     "id": "2",
-    "title": "PhysioFit",
-    "description": "AI-powered personalized workout plan generator",
-    "longDescription": "PhysioFit generates customized workout plans based on your fitness level, goals, injuries or limitations and available equipment. The AI adapts the plan based on your progress and feedback to keep you motivated and on track.",
+    "title": "PhysioFit Planner",
+    "description": "Weekly exercise programs for physio patients, ready to print.",
+    "longDescription": "A physiotherapist, or the patient, fills in a clinical intake: condition, limits, goals and equipment. Claude writes a tailored weekly program, the clinician reviews it, and it exports as a print-ready PDF. There are no accounts and nothing is stored; every session stands alone.",
     "icon": "💪",
     "aiContext": "AI-built tool",
     "demoUrl": "https://physiofit-planner.vercel.app/",
     "slug": "physiofit",
+    "chapter": "clients",
+    "started": "2026-04",
+    "status": "Live",
     "technologies": [
-      "Machine Learning",
-      "Health APIs",
       "Next.js",
-      "PostgreSQL"
+      "Claude API",
+      "React PDF",
+      "Vercel"
     ],
     "screenshots": [
+      "/projects/physiofit/capture/desktop-1-start.jpg",
+      "/projects/physiofit/capture/loop.mp4",
+      "/projects/physiofit/capture/desktop-2-intake.jpg",
+      "/projects/physiofit/capture/desktop-3-intake-2.jpg",
+      "/projects/physiofit/capture/desktop-4-clinician.jpg",
+      "/projects/physiofit/capture/phone-1.jpg",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/physiofit/1787680374201-Screenshot-2026-08-25-at-1.52.09-PM.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/physiofit/1787680374181-Screenshot-2026-08-25-at-1.52.17-PM.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/physiofit/1787680374209-Screenshot-2026-08-25-at-1.52.23-PM.png",
@@ -38,44 +85,59 @@
     ]
   },
   {
-    "id": "3",
-    "title": "Likes + Dislikes",
-    "description": "Couple compatibility analyzer",
-    "longDescription": "An interactive app that helps couples understand their intimacy compatibility through a detailed questionnaire. The application provides insights based on the couple's responses.",
-    "icon": "💑",
-    "aiContext": "AI-powered conversations",
-    "demoUrl": "https://likes-and-limits.vercel.app/",
-    "slug": "likes-dislikes",
+    "id": "1792240000002",
+    "title": "Document reader",
+    "description": "Reads documents dropped in a folder and turns them into checked data.",
+    "longDescription": "A proof of concept for intelligent document processing. Files dropped into a folder are read with Amazon Textract, mapped to the fields of a document class you define, validated, sent to a review screen when something is unsure, and exported with a JSON record beside each PDF.",
+    "icon": "",
+    "aiContext": "",
+    "demoUrl": "",
+    "slug": "idp",
+    "chapter": "clients",
+    "started": "2026-09",
+    "status": "Runs locally",
     "technologies": [
-      "NLP",
-      "Claude API",
-      "React",
-      "WebSockets"
+      "Python",
+      "FastAPI",
+      "Temporal",
+      "Amazon Textract",
+      "React"
     ],
     "screenshots": [
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603623-4-Screenshot-2026-08-25-at-1.53.47-PM.png",
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603551-2-Screenshot-2026-08-25-at-1.54.08-PM.png",
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603547-1-Screenshot-2026-08-25-at-1.54.14-PM.png",
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603550-0-Screenshot-2026-08-25-at-1.54.47-PM.png",
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603622-3-Screenshot-2026-08-25-at-1.54.00-PM.png"
-    ]
+      "/projects/idp/capture/desktop-2-review.jpg",
+      "/projects/idp/capture/desktop-1-queue.jpg",
+      "/projects/idp/capture/loop.mp4",
+      "/projects/idp/capture/desktop-3-monitor.jpg",
+      "/projects/idp/capture/desktop-4-classes.jpg"
+    ],
+    "mediaNote": "Shown in its mock-OCR mode with fictional sample invoices, so no real documents appear."
   },
   {
     "id": "4",
-    "title": "Quebec rental property analyzer",
-    "description": "Quebec rental property analyzer",
-    "longDescription": "Using a simple listing URL, this application performs an analysis of the rental property and provides all key ratios, calculations and even provides a score on whether the property is a good candidate.",
+    "title": "QC Rental Analyzer",
+    "description": "Paste a Centris listing, get a full rental investment analysis.",
+    "longDescription": "For Quebec investors looking at revenue properties. Paste a Centris.ca link and Claude reads the listing; the app then runs the numbers: monthly cash flow, the key ratios, a sensitivity analysis of every assumption and a score for whether the building deserves a closer look. The report prints.",
     "icon": "🏢",
     "aiContext": "AI-powered conversations",
     "demoUrl": "https://qc-rental-analyzer.vercel.app/",
     "slug": "rental-property",
+    "chapter": "rentals",
+    "started": "2026-06",
+    "status": "Live",
     "technologies": [
-      "NLP",
+      "Next.js",
       "Claude API",
-      "React",
-      "WebSockets"
+      "Postgres",
+      "Recharts",
+      "Resend"
     ],
     "screenshots": [
+      "/projects/rental-property/capture/desktop-1-home.jpg",
+      "/projects/rental-property/capture/loop.mp4",
+      "/projects/rental-property/capture/desktop-2-features.jpg",
+      "/projects/rental-property/capture/desktop-3-how.jpg",
+      "/projects/rental-property/capture/phone-1.jpg",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/rental-property/1787680011587-Screenshot-2026-08-25-at-1.43.19-PM.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/rental-property/1787679972811-Screenshot-2026-08-25-at-1.41.27-PM.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/rental-property/1787679917352-Screenshot-2026-08-25-at-1.43.07-PM.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/rental-property/1787679990825-Screenshot-2026-08-25-at-1.43.02-PM.png",
@@ -85,55 +147,112 @@
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/rental-property/1787680011533-Screenshot-2026-08-25-at-1.43.41-PM.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/rental-property/1787680011488-Screenshot-2026-08-25-at-1.43.35-PM.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/rental-property/1787680011580-Screenshot-2026-08-25-at-1.43.30-PM.png",
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/rental-property/1787680011587-Screenshot-2026-08-25-at-1.43.19-PM.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/rental-property/1787680011582-Screenshot-2026-08-25-at-1.43.21-PM.png"
     ]
   },
   {
-    "id": "5",
-    "title": "Hockey sub finder",
-    "description": "Automatically text message hockey subs to find a replacement",
-    "longDescription": "With a simple CSV list of available spares, this application will send text messages to spares one at a time until a replacement is found. It responds to each message automatically.",
-    "icon": "🏒",
-    "aiContext": "AI-built auto texter",
-    "demoUrl": "",
-    "slug": "sub-finder",
+    "id": "1792240000003",
+    "title": "McGill Living",
+    "description": "A site for rental condos, with a chatbot that knows the lease.",
+    "longDescription": "A page for each unit, a photo gallery, a map and an FAQ, plus a chatbot that answers tenants’ and applicants’ questions from the unit details and the lease policies, and politely declines anything else. A password-protected admin page sits behind it.",
+    "icon": "",
+    "aiContext": "",
+    "demoUrl": "https://mcgillliving.com/",
+    "slug": "mcgill-living",
+    "chapter": "rentals",
+    "started": "2026-08",
+    "status": "Live",
     "technologies": [
-      "NLP",
+      "Next.js",
       "Claude API",
-      "React",
-      "WebSockets"
+      "Upstash Redis",
+      "Vercel"
+    ],
+    "screenshots": [
+      "/projects/mcgill-living/capture/desktop-1-home.jpg",
+      "/projects/mcgill-living/capture/loop.mp4",
+      "/projects/mcgill-living/capture/desktop-2-units.jpg",
+      "/projects/mcgill-living/capture/desktop-3-gallery.jpg",
+      "/projects/mcgill-living/capture/desktop-4-unit.jpg",
+      "/projects/mcgill-living/capture/phone-1.jpg"
     ]
   },
   {
-    "id": "6",
-    "title": "Massage therapist website",
-    "description": "Built from scratch. Full booking backend with automated notifications.",
-    "longDescription": "Customers can book massages directly on the website. Therapists can configure services, rates, locations, hours for each location, notification settings and more. Mobile friendly.",
-    "icon": "💆",
-    "aiContext": "AI-built website",
-    "demoUrl": "https://www.kaymassotherapie.com/",
-    "slug": "massage-therapist",
+    "id": "1792240000004",
+    "title": "Rent tracker",
+    "description": "Matches every Interac rent payment to the right unit, on its own.",
+    "longDescription": "A Google Apps Script tied to my rent spreadsheet. Every ten minutes it reads the Interac deposit emails, matches each payment to a tenant and unit and logs it exactly once. At 8 pm it texts me who has not paid yet, and I confirm by replying to the text. Real rent has gone through it.",
+    "icon": "",
+    "aiContext": "",
+    "demoUrl": "",
+    "slug": "rental-automation",
+    "chapter": "rentals",
+    "started": "2026-09",
+    "status": "Runs in the background",
     "technologies": [
-      "NLP",
+      "Google Apps Script",
+      "Google Sheets",
+      "Gmail",
+      "Twilio"
+    ],
+    "screenshots": [
+      "/projects/rental-automation/capture/desktop-1-matched.jpg",
+      "/projects/rental-automation/capture/loop.mp4",
+      "/projects/rental-automation/capture/desktop-2-email.jpg",
+      "/projects/rental-automation/capture/desktop-3-paid.jpg",
+      "/projects/rental-automation/capture/desktop-4-unpaid.jpg"
+    ],
+    "mediaNote": "An illustrated walkthrough with made-up tenants: the real script has no screen, only a spreadsheet and text messages."
+  },
+  {
+    "id": "1",
+    "title": "Vidscene",
+    "description": "Splits hours of old family tapes into one clip per event.",
+    "longDescription": "Our home videos came back from digitizing as hours-long files. Vidscene finds every shot change, lays one frame per shot on contact sheets for Claude to group into events (a swim meet, a birthday) and uses what was said when there is a transcript. I check the proposal on a web page, merge or split, and it exports frame-accurate clips.",
+    "icon": "🎬",
+    "aiContext": "AI-powered processing",
+    "demoUrl": "",
+    "slug": "vidscene",
+    "chapter": "home",
+    "started": "2026-10",
+    "status": "Runs locally",
+    "technologies": [
+      "Python",
+      "OpenCV",
       "Claude API",
-      "React",
-      "WebSockets"
-    ]
+      "Flask",
+      "FFmpeg"
+    ],
+    "screenshots": [
+      "/projects/vidscene/capture/desktop-1-review.jpg",
+      "/projects/vidscene/capture/loop.mp4",
+      "/projects/vidscene/capture/desktop-2-events.jpg",
+      "/projects/vidscene/capture/desktop-3-more-events.jpg",
+      "/projects/vidscene/capture/desktop-4-collection.jpg"
+    ],
+    "mediaNote": "Shown with a public-domain sample tape, “Saga of the Happy Wanderers” (about 1957), from the Prelinger Archives on the Internet Archive. Our own family tapes stay private."
   },
   {
     "id": "1787676380884",
-    "title": "House Plants",
-    "description": "Care for your house plants",
+    "title": "Plant Care",
+    "description": "Names a house plant from a photo and keeps it alive.",
+    "longDescription": "Take a photo and the app tells you what the plant is called, how often to water it and what it needs. Every plant gets its room and its own schedule, and a sick one can be photographed again for a diagnosis and a treatment.",
     "icon": "🚀",
     "aiContext": "AI-powered tool",
-    "slug": "Plants",
     "demoUrl": "https://plantapp-iota.vercel.app/",
-    "longDescription": "Ever wondered what your house plant is called? How often you should care for it? What you should do? How about treating a sick plant? ",
-    "technologies": [],
+    "slug": "Plants",
+    "chapter": "home",
+    "started": "2026-08",
+    "status": "Live",
+    "technologies": [
+      "Next.js",
+      "Claude API",
+      "Supabase",
+      "Vercel"
+    ],
     "screenshots": [
-      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/Plants/Plants-1787677265143.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/Plants/Plants-1787677264009.png",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/Plants/Plants-1787677265143.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/Plants/Plants-1787677262159.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/Plants/Plants-1787677261163.png",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/Plants/Plants-1787677263006.png",
@@ -142,17 +261,186 @@
     ]
   },
   {
+    "id": "1792240000005",
+    "title": "Mise",
+    "description": "Turns a body-composition goal into a weekly batch-cooking plan.",
+    "longDescription": "Enter your measurements and your goal; Mise plans the week’s recipes and servings with one grocery list, then learns your real metabolism from how your weight moves over the following weeks. Every number comes from plain, tested arithmetic.",
+    "icon": "",
+    "aiContext": "",
+    "demoUrl": "https://mise-lilac-one.vercel.app/",
+    "slug": "mise",
+    "chapter": "home",
+    "started": "2026-08",
+    "status": "Live",
+    "technologies": [
+      "Next.js",
+      "Supabase",
+      "Recharts",
+      "Vitest"
+    ],
+    "screenshots": [
+      "/projects/mise/capture/desktop-1-home.jpg",
+      "/projects/mise/capture/loop.mp4",
+      "/projects/mise/capture/desktop-2-plan.jpg",
+      "/projects/mise/capture/desktop-3-how.jpg",
+      "/projects/mise/capture/desktop-4-how-page.jpg",
+      "/projects/mise/capture/phone-1.jpg"
+    ]
+  },
+  {
+    "id": "1792240000006",
+    "title": "Artify",
+    "description": "Restyles one photo in several art styles, side by side.",
+    "longDescription": "Upload a photo, pick styles from a gallery of samples and compare the AI renditions side by side. Switching between FLUX models trades cost against how closely the result follows your photo.",
+    "icon": "",
+    "aiContext": "",
+    "demoUrl": "",
+    "slug": "artify",
+    "chapter": "home",
+    "started": "2026-07",
+    "status": "Runs locally",
+    "technologies": [
+      "Next.js",
+      "Replicate",
+      "FLUX",
+      "Vercel Blob"
+    ],
+    "screenshots": []
+  },
+  {
+    "id": "3",
+    "title": "Likes + Limits",
+    "description": "A private compatibility survey for couples. Adults only.",
+    "longDescription": "Each partner answers on their own. When both are done, a shared page shows where they match, where one could introduce the other to something new and where the hard limits are. Nothing outside the overlap is ever shown to the other person.",
+    "icon": "💑",
+    "aiContext": "AI-powered conversations",
+    "demoUrl": "https://likes-and-limits.vercel.app/",
+    "slug": "likes-dislikes",
+    "chapter": "home",
+    "started": "2026-03",
+    "status": "Live",
+    "technologies": [
+      "Next.js",
+      "Prisma",
+      "SQLite",
+      "React PDF"
+    ],
+    "screenshots": [
+      "/projects/likes-dislikes/capture/desktop-1-home.jpg",
+      "/projects/likes-dislikes/capture/loop.mp4",
+      "/projects/likes-dislikes/capture/desktop-2-how.jpg",
+      "/projects/likes-dislikes/capture/desktop-3-results.jpg",
+      "/projects/likes-dislikes/capture/desktop-4-privacy.jpg",
+      "/projects/likes-dislikes/capture/phone-1.jpg",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603623-4-Screenshot-2026-08-25-at-1.53.47-PM.png",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603551-2-Screenshot-2026-08-25-at-1.54.08-PM.png",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603547-1-Screenshot-2026-08-25-at-1.54.14-PM.png",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603550-0-Screenshot-2026-08-25-at-1.54.47-PM.png",
+      "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/likes-dislikes/1787709603622-3-Screenshot-2026-08-25-at-1.54.00-PM.png"
+    ]
+  },
+  {
+    "id": "1792240000007",
+    "title": "Freeze Frame",
+    "description": "Guess the movie or show from a blurred frame, on the TV.",
+    "longDescription": "A party game run by one host and played out loud. Each round starts from a blurred still; hints sharpen it, show new scenes and finally the poster. Teams or everyone together, and nobody needs a phone. Film data and images come from TMDB.",
+    "icon": "",
+    "aiContext": "",
+    "demoUrl": "https://freeze-frame-chi.vercel.app/",
+    "slug": "freeze-frame",
+    "chapter": "friends",
+    "started": "2026-10",
+    "status": "Live",
+    "technologies": [
+      "Next.js",
+      "TMDB",
+      "Vitest"
+    ],
+    "screenshots": [
+      "/projects/freeze-frame/capture/desktop-3-hints.jpg",
+      "/projects/freeze-frame/capture/desktop-1-setup.jpg",
+      "/projects/freeze-frame/capture/loop.mp4",
+      "/projects/freeze-frame/capture/desktop-2-round.jpg",
+      "/projects/freeze-frame/capture/desktop-4-reveal.jpg",
+      "/projects/freeze-frame/capture/phone-1.jpg"
+    ]
+  },
+  {
+    "id": "1792240000008",
+    "title": "Song Snippet",
+    "description": "Name the song from a quarter of a second of it.",
+    "longDescription": "The TV plays a tiny clip of a real song, teams shout their guess and the host can ask for a longer clip until someone gets it. Ten songs a game, themed packs and an endless mode, in English and Quebec French.",
+    "icon": "",
+    "aiContext": "",
+    "demoUrl": "https://group-games-pied.vercel.app/",
+    "slug": "song-snippet",
+    "chapter": "friends",
+    "started": "2026-10",
+    "status": "Live",
+    "technologies": [
+      "Next.js",
+      "Deezer",
+      "Vitest"
+    ],
+    "screenshots": [
+      "/projects/song-snippet/capture/desktop-4-hints.jpg",
+      "/projects/song-snippet/capture/desktop-1-hub.jpg",
+      "/projects/song-snippet/capture/loop.mp4",
+      "/projects/song-snippet/capture/desktop-2-setup.jpg",
+      "/projects/song-snippet/capture/desktop-3-round.jpg",
+      "/projects/song-snippet/capture/desktop-5-reveal.jpg",
+      "/projects/song-snippet/capture/phone-1.jpg"
+    ]
+  },
+  {
     "id": "1787932216417",
     "title": "Wheel of Nope",
-    "description": "Get advice on how you should handle requests for favours",
+    "description": "A wheel that only ever tells you not to do the favour.",
+    "longDescription": "A gift for a friend who says yes to everything. Type what you are being asked to do, spin, and Claude writes a specific, loving no. Every decline adds to the streak, and streaks of 3, 5 and 10 unlock awards.",
     "icon": "",
     "aiContext": "AI-powered tool",
-    "slug": "WheelOfNope",
     "demoUrl": "https://the-no-ball.vercel.app/",
-    "longDescription": "",
-    "technologies": [],
+    "slug": "WheelOfNope",
+    "chapter": "friends",
+    "started": "2026-08",
+    "status": "Live",
+    "technologies": [
+      "Next.js",
+      "Claude API",
+      "Vercel"
+    ],
     "screenshots": [
+      "/projects/WheelOfNope/capture/desktop-1-wheel.jpg",
+      "/projects/WheelOfNope/capture/loop.mp4",
+      "/projects/WheelOfNope/capture/desktop-2-asked.jpg",
+      "/projects/WheelOfNope/capture/phone-1.jpg",
       "https://raw.githubusercontent.com/douimet2/portfolio/main/public/projects/WheelOfNope/1787932274045-0-Screenshot-2026-08-28-at-11.51.04-AM.png"
     ]
+  },
+  {
+    "id": "5",
+    "title": "Hockey Sub Finder",
+    "description": "Texts the spares one by one until someone takes the spot.",
+    "longDescription": "With a simple list of spares, it texts one player at a time, waits for an answer, understands yes in English or French, confirms the sub and tells the others the spot is filled. It respects a sending window so nobody gets a text at midnight.",
+    "icon": "🏒",
+    "aiContext": "AI-built auto texter",
+    "demoUrl": "",
+    "slug": "sub-finder",
+    "chapter": "friends",
+    "status": "Runs locally",
+    "technologies": [
+      "Python",
+      "Flask",
+      "Twilio",
+      "SQLite"
+    ],
+    "screenshots": [
+      "/projects/sub-finder/capture/desktop-1-confirmed.jpg",
+      "/projects/sub-finder/capture/loop.mp4",
+      "/projects/sub-finder/capture/desktop-2-spares.jpg",
+      "/projects/sub-finder/capture/desktop-3-next.jpg",
+      "/projects/sub-finder/capture/desktop-4-filled.jpg"
+    ],
+    "mediaNote": "An illustrated walkthrough with made-up names: the real app works entirely by text message."
   }
 ]

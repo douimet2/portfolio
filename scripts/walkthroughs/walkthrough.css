@@ -1,0 +1,51 @@
+/* Shared look for the illustrated walkthroughs of apps that have no screen of their own.
+   They are drawings of what the app does, in the portfolio's palette, not screenshots. */
+@font-face { font-family: Roundo; src: url("../../app/fonts/Roundo-400.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: Roundo; src: url("../../app/fonts/Roundo-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: Roundo; src: url("../../app/fonts/Roundo-600.woff2") format("woff2"); font-weight: 600; }
+
+:root {
+  --bg: #e6e0d2; --surface: #dcd5c5; --ink: #1a1a1a; --muted: #5f5b52;
+  --coral: #f2675d; --black: #1a1a1a; --green: #18bc42; --yellow: #f2c21a;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  width: 1440px; height: 900px; overflow: hidden;
+  font-family: Roundo, system-ui, sans-serif; color: var(--ink);
+  background: var(--field); position: relative;
+}
+.caption {
+  position: absolute; left: 64px; bottom: 56px; right: 64px;
+  font-size: 30px; font-weight: 500; letter-spacing: -0.01em; color: var(--field-ink);
+  height: 40px;
+}
+.caption span { position: absolute; left: 0; top: 0; }
+.title { position: absolute; left: 64px; top: 52px; font-size: 22px; font-weight: 600; color: var(--field-ink); }
+
+/* Anything with data-from appears at that step; data-until hides it again from that step. */
+[data-from], [data-until] { transition: opacity 500ms var(--ease), transform 500ms var(--ease), background-color 400ms ease, color 400ms ease; }
+.hidden { opacity: 0; transform: translateY(14px); pointer-events: none; }
+.gone { display: none !important; }
+
+/* A phone, drawn flat. */
+.phone {
+  position: absolute; width: 400px; height: 760px; border-radius: 56px; background: var(--black);
+  padding: 22px; top: 70px;
+}
+.phone .screen { width: 100%; height: 100%; border-radius: 38px; background: #f4f1ea; overflow: hidden; display: flex; flex-direction: column; }
+.phone .who { padding: 26px 24px 14px; font-size: 18px; font-weight: 600; text-align: center; background: #ebe6db; }
+.phone .who small { display: block; font-size: 13px; font-weight: 400; color: var(--muted); }
+.thread { flex: 1; padding: 18px 16px; display: flex; flex-direction: column; gap: 10px; justify-content: flex-end; }
+.bubble { max-width: 78%; padding: 12px 16px; border-radius: 22px; font-size: 17px; line-height: 1.35; }
+.bubble.out { align-self: flex-end; background: var(--ink); color: #f4f1ea; border-bottom-right-radius: 6px; }
+.bubble.in { align-self: flex-start; background: #dcd5c5; border-bottom-left-radius: 6px; }
+.stamp { align-self: center; font-size: 13px; color: var(--muted); }
+
+.card { position: absolute; background: var(--bg); border-radius: 20px; padding: 28px 30px; }
+.card h3 { margin: 0 0 18px; font-size: 20px; font-weight: 600; }
+.pill { display: inline-block; padding: 6px 14px; border-radius: 999px; font-size: 15px; font-weight: 500; background: var(--surface); }
+.pill.go { background: var(--yellow); }
+.pill.ok { background: var(--green); }
+.pill.no { background: var(--coral); }

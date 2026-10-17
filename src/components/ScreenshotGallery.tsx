@@ -14,28 +14,25 @@ export default function ScreenshotGallery({ screenshots, title }: ScreenshotGall
 
   return (
     <>
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="shots">
         {screenshots.map((screenshot, index) =>
           isVideo(screenshot) ? (
-            // Videos keep their own controls — a click here would fight the
-            // play button, so they play in place.
-            <div key={index} className="rounded-lg overflow-hidden border border-gray-200">
-              <video src={mediaUrl(screenshot)} controls className="w-full h-auto bg-gray-100" />
+            // Videos loop silently in place, like a moving screenshot.
+            <div key={screenshot} className="shot" data-reveal style={{ '--i': index % 2 } as React.CSSProperties}>
+              <video src={mediaUrl(screenshot)} autoPlay muted loop playsInline controls />
             </div>
           ) : (
             <button
-              key={index}
+              key={screenshot}
               type="button"
               onClick={() => setOpenIndex(index)}
               aria-label={`Enlarge ${title} screenshot ${index + 1}`}
-              className="group relative block overflow-hidden rounded-lg border border-gray-200 transition-shadow hover:shadow-lg cursor-zoom-in"
+              className="shot"
+              data-reveal
+              style={{ '--i': index % 2 } as React.CSSProperties}
             >
-              <img
-                src={mediaUrl(screenshot)}
-                alt={`${title} screenshot ${index + 1}`}
-                className="w-full h-auto"
-              />
-              <span className="pointer-events-none absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/5" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={mediaUrl(screenshot)} alt={`${title} screenshot ${index + 1}`} loading="lazy" />
             </button>
           )
         )}
