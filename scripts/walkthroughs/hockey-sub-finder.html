@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hockey Sub Finder walkthrough</title>
+<link rel="stylesheet" href="walkthrough.css">
+<style>
+  body { --field: var(--black); --field-ink: var(--bg); }
+  .list { left: 64px; top: 130px; width: 680px; }
+  .row { display: grid; grid-template-columns: 1fr 190px 220px; align-items: center; gap: 16px; padding: 16px 0; font-size: 20px; }
+  .row + .row { margin-top: 4px; }
+  .row .num { color: var(--muted); font-size: 17px; font-variant-numeric: tabular-nums; }
+  .row .state { justify-self: end; position: relative; }
+  .clock { position: absolute; left: 64px; top: 560px; font-size: 96px; font-weight: 500; letter-spacing: -0.04em; color: var(--yellow); font-variant-numeric: tabular-nums; }
+  .clock small { display: block; font-size: 20px; letter-spacing: 0; color: var(--bg); font-weight: 400; margin-top: 4px; }
+  .phone { left: 940px; }
+</style>
+</head>
+<body data-step-ms="2300" data-ui>
+  <div class="title">Hockey Sub Finder</div>
+
+  <div class="card list">
+    <h3>Tonight's spares</h3>
+    <div class="row"><span>Marc T.</span><span class="num">514 ··· 2231</span>
+      <span class="state">
+        <span class="pill" data-swap data-until="1">Waiting</span>
+        <span class="pill go" data-swap data-from="1" data-until="2">Texted 9:02 pm</span>
+        <span class="pill no" data-swap data-from="2" data-until="5">No reply in 60 min</span>
+        <span class="pill" data-swap data-from="5">Told: spot filled</span>
+      </span></div>
+    <div class="row"><span>Sam L.</span><span class="num">438 ··· 9017</span>
+      <span class="state">
+        <span class="pill" data-swap data-until="2">Waiting</span>
+        <span class="pill go" data-swap data-from="2" data-until="4">Texted 10:02 pm</span>
+        <span class="pill ok" data-swap data-from="4">Confirmed</span>
+      </span></div>
+    <div class="row"><span>Jordan P.</span><span class="num">514 ··· 6640</span>
+      <span class="state">
+        <span class="pill" data-swap data-until="5">Waiting</span>
+        <span class="pill" data-swap data-from="5">Not needed</span>
+      </span></div>
+    <div class="row"><span>Félix B.</span><span class="num">450 ··· 3388</span>
+      <span class="state">
+        <span class="pill" data-swap data-until="5">Waiting</span>
+        <span class="pill" data-swap data-from="5">Not needed</span>
+      </span></div>
+  </div>
+
+  <div class="clock">
+    <span data-swap data-until="2">9:02 pm</span><span data-swap data-from="2" data-until="3">10:02 pm</span><span data-swap data-from="3" data-until="5">10:05 pm</span><span data-swap data-from="5">10:11 pm</span>
+    <small>Game at 10:30 pm</small>
+  </div>
+
+  <div class="phone">
+    <div class="screen">
+      <div class="who"><span data-swap data-until="2">Marc T.</span><span data-swap data-from="2">Sam L.</span><small>text message</small></div>
+      <div class="thread">
+        <span class="stamp" data-from="1" data-until="2">9:02 pm</span>
+        <div class="bubble out" data-from="1" data-until="2">Need a sub tonight, 10:30 pm at the arena. Can you play?</div>
+        <span class="stamp" data-from="2">10:02 pm</span>
+        <div class="bubble out" data-from="2">Need a sub tonight, 10:30 pm at the arena. Can you play?</div>
+        <div class="bubble in" data-from="3">Oui, je peux!</div>
+        <div class="bubble out" data-from="4">Great news – you're confirmed as the sub! See you out there 🏒</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="caption">
+    <span data-swap data-until="1">Load tonight's list of spares.</span>
+    <span data-swap data-from="1" data-until="2">It texts one spare at a time.</span>
+    <span data-swap data-from="2" data-until="3">No answer within the hour? It moves on to the next one.</span>
+    <span data-swap data-from="3" data-until="4">It understands yes in English or in French…</span>
+    <span data-swap data-from="4" data-until="5">…and confirms the sub straight away.</span>
+    <span data-swap data-from="5">Everyone else hears the spot is filled.</span>
+  </div>
+  <script src="walkthrough.js"></script>
+</body>
+</html>

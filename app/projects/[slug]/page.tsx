@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { projects } from "@/data/projects";
-import ScreenshotGallery from "@/components/ScreenshotGallery";
 import { notFound } from "next/navigation";
+import SiteHeader from "@/components/SiteHeader";
+import Footer from "@/components/Footer";
+import ScreenshotGallery from "@/components/ScreenshotGallery";
+import { chapterOf, coverOf, orderedProjects, projects, startedLabel, videoOf } from "@/data/projects";
+import { mediaUrl } from "@/lib/media";
 
 interface ProjectPageProps {
   params: Promise<{
@@ -17,129 +19,149 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
+  if (!project) return {};
+  return { title: `${project.title} — Daniel Ouimet`, description: project.description };
+}
 
-  if (!project) {
-    notFound();
-  }
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params;
+  const index = orderedProjects.findIndex((p) => p.slug === slug);
+  if (index === -1) notFound();
 
-  const otherProjects = projects.filter((p) => p.slug !== slug).slice(0, 2);
+  const project = orderedProjects[index];
+  const chapter = chapterOf(project);
+  const next = orderedProjects[(index + 1) % orderedProjects.length];
+  const nextChapter = chapterOf(next);
+  const cover = coverOf(project);
+  const video = videoOf(project);
+  const status = project.status ?? "Live";
+
+  const colours = {
+    "--field": chapter.field,
+    "--field-ink": chapter.ink,
+    "--tile": chapter.tile,
+  } as React.CSSProperties;
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      <Header />
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="border-b border-gray-200 py-12 sm:py-16">
-          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium mb-8 transition-colors"
-            >
-              <span>←</span> Back to all projects
-            </Link>
-
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-6xl">{project.icon}</span>
-              <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full h-fit">
-                {project.aiContext}
-              </span>
+    <>
+      <SiteHeader />
+      <main>
+        <section className="project-top" style={colours} data-bg={chapter.field} data-ink={chapter.ink}>
+          <h1 className="display" data-rise style={{ "--i": 0 } as React.CSSProperties}>
+            {project.title}
+          </h1>
+          <p className="project-lead" data-rise style={{ "--i": 1 } as React.CSSProperties}>
+            {project.description}
+          </p>
+          <dl className="project-facts" data-rise style={{ "--i": 2 } as React.CSSProperties}>
+            <div>
+              <dt>Built</dt>
+              <dd>
+                <Link href={`/#${chapter.id}`} className="textlink">
+                  {chapter.title}
+                </Link>
+              </dd>
             </div>
-
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-              {project.title}
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              {project.description}
-            </p>
-
-            {project.demoUrl && (
-              <a
-                href={project.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                View Live Demo
+            <div>
+              <dt>Started</dt>
+              <dd className="num">{startedLabel(project)}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>{status}</dd>
+            </div>
+            <div>
+              <dt>Made with</dt>
+              <dd>{project.technologies?.length ? project.technologies.join(", ") : "Claude Code"}</dd>
+            </div>
+          </dl>
+          <div className="project-actions" data-rise style={{ "--i": 3 } as React.CSSProperties}>
+            {project.demoUrl ? (
+              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="button">
+                Open the app <span className="arrow" aria-hidden="true">↗</span>
               </a>
+            ) : (
+              <>
+                {cover && (
+                  <a href="#media" className="button">
+                    See it in use <span className="arrow" aria-hidden="true">↓</span>
+                  </a>
+                )}
+                <p className="note">
+                  {status === "Runs in the background"
+                    ? "It has no screen of its own: it runs on a schedule and reports by text message."
+                    : "It runs on my own computer, so there is no public link."}
+                </p>
+              </>
             )}
           </div>
         </section>
 
-        {/* Screenshots Section */}
-        {project.screenshots && project.screenshots.length > 0 && (
-          <section className="py-12 sm:py-16 border-b border-gray-200">
-            <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Screenshots & Videos</h2>
-              <ScreenshotGallery screenshots={project.screenshots} title={project.title} />
-            </div>
-          </section>
-        )}
-
-        {/* Details Section */}
-        <section className="py-12 sm:py-16 border-b border-gray-200">
-          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-2 gap-12">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">About</h2>
-                <p className="text-gray-600 leading-relaxed mb-6">
-                  {project.longDescription || project.description}
-                </p>
-              </div>
-
-              {project.technologies && (
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Technologies</h2>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+        {cover && (
+          <div className="project-cover" id="media" style={colours}>
+            <div className="frame" data-reveal>
+              {video ? (
+                <video
+                  src={mediaUrl(video)}
+                  poster={mediaUrl(cover)}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  aria-label={`${project.title} in use`}
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={mediaUrl(cover)} alt={`${project.title}: ${project.description}`} />
               )}
             </div>
           </div>
+        )}
+
+        <section className="project-body" data-bg="var(--bg)" data-ink="var(--ink)">
+          {project.mediaNote && (
+            <p className="media-note" data-reveal>
+              {project.mediaNote}
+            </p>
+          )}
+          <div className="story">
+            <h2 data-reveal>What it does</h2>
+            <p className="lead" data-reveal style={{ "--i": 1 } as React.CSSProperties}>
+              {project.longDescription || project.description}
+            </p>
+          </div>
+          {project.screenshots && project.screenshots.filter((s) => s !== video).length > 1 ? (
+            <ScreenshotGallery
+              // With a loop on top, the cover still belongs in the gallery; without one, it is already above.
+              screenshots={project.screenshots.filter((s) => s !== video && (video ? true : s !== cover))}
+              title={project.title}
+            />
+          ) : (
+            !cover && (
+              <div className="no-shots" data-reveal>
+                <p className="lead">Screens and a short video of {project.title} are on the way.</p>
+              </div>
+            )
+          )}
         </section>
 
-        {/* Related Projects */}
-        {otherProjects.length > 0 && (
-          <section className="py-12 sm:py-16">
-            <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-8">More Projects</h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                {otherProjects.map((relatedProject) => (
-                  <Link
-                    key={relatedProject.id}
-                    href={`/projects/${relatedProject.slug}`}
-                    className="block p-6 rounded-lg border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <span className="text-3xl">{relatedProject.icon}</span>
-                      <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">
-                        {relatedProject.aiContext}
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-bold text-gray-900 hover:text-blue-600 transition-colors">
-                      {relatedProject.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 mt-2">
-                      {relatedProject.description}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+        <Link
+          href={`/projects/${next.slug}`}
+          className="next-app"
+          style={{ "--field": nextChapter.field, "--field-ink": nextChapter.ink } as React.CSSProperties}
+          data-bg={nextChapter.field}
+          data-ink={nextChapter.ink}
+        >
+          <span className="head">
+            Next: {next.title} <span aria-hidden="true">→</span>
+          </span>
+          <p>{next.description}</p>
+        </Link>
       </main>
       <Footer />
-    </div>
+    </>
   );
 }

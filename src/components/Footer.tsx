@@ -1,25 +1,98 @@
+import Link from "next/link";
+import { chapters } from "@/data/projects";
+
+export const EMAIL = "danouimet@gmail.com";
+export const GITHUB = "https://github.com/douimet2";
+
+// The name, built from blocks in the palette's colours. Heights step so the bottoms line up.
+const BLOCK_COLOURS = ["var(--field-1)", "var(--field-4)", "var(--field-3)", "var(--field-2)"];
+const HEIGHTS = [100, 78, 92, 64, 86, 72, 96];
+
+function BlockWord({ word, offset }: { word: string; offset: number }) {
+  return (
+    <span className="word" style={{ "--len": word.length } as React.CSSProperties}>
+      {word.split("").map((letter, i) => {
+        const n = offset + i;
+        const colour = BLOCK_COLOURS[n % BLOCK_COLOURS.length];
+        return (
+          <span
+            key={i}
+            className="block"
+            data-light={colour !== "var(--field-2)"}
+            style={{ "--c": colour, "--h": `${HEIGHTS[n % HEIGHTS.length]}%`, transitionDelay: `${n * 40}ms` } as React.CSSProperties}
+          >
+            {letter}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+export function Contact() {
+  return (
+    <section id="contact" className="contact" data-bg="var(--field-2)" data-ink="var(--field-2-ink)" aria-label="Contact">
+      <p data-reveal>Have a problem an app could fix? Tell me about it.</p>
+      <span />
+      <a className="contact-mail" href={`mailto:${EMAIL}?subject=An%20app%20idea`} data-reveal style={{ "--i": 1 } as React.CSSProperties}>
+        danouimet<span className="at">@</span>gmail.com
+      </a>
+      <div className="contact-foot">
+        <span>Quebec, Canada · I reply in English or French</span>
+        <a href={GITHUB} target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>
+      </div>
+    </section>
+  );
+}
+
 export default function Footer() {
   return (
-    <footer id="contact" className="border-t border-gray-200 bg-white py-12">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div>
-            <p className="text-gray-900 font-semibold mb-2">Built in my spare time</p>
-            <p className="text-gray-600 text-sm max-w-sm">
-              These are side projects I've built to explore AI, machine learning, and modern web
-              technologies. Each one has taught me something new.
-            </p>
-          </div>
-          <a
-            href="mailto:danouimet@gmail.com"
-            className="flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
-          >
-            Get in touch
-          </a>
-        </div>
-        <div className="mt-8 pt-8 border-t border-gray-100 text-center text-sm text-gray-500">
-          <p>© 2026 AI Portfolio. All projects available on GitHub.</p>
-        </div>
+    <footer className="site-footer" data-bg="var(--bg)" data-ink="var(--ink)">
+      <p className="blockmark" data-reveal aria-label="Daniel Ouimet">
+        <BlockWord word="DANIEL" offset={0} />
+        <BlockWord word="OUIMET" offset={6} />
+      </p>
+      <div className="footer-links">
+        <ul>
+          {chapters.slice(0, 2).map((c) => (
+            <li key={c.id}>
+              <Link href={`/#${c.id}`}>{c.title}</Link>
+            </li>
+          ))}
+        </ul>
+        <ul>
+          {chapters.slice(2).map((c) => (
+            <li key={c.id}>
+              <Link href={`/#${c.id}`}>{c.title}</Link>
+            </li>
+          ))}
+        </ul>
+        <ul>
+          <li>
+            <Link href="/#apps">Every app</Link>
+          </li>
+          <li>
+            <Link href="/#about">About</Link>
+          </li>
+        </ul>
+        <ul className="contact-lines">
+          <li>
+            <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          </li>
+          <li>
+            <a href={GITHUB} target="_blank" rel="noopener noreferrer">
+              github.com/douimet2
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div className="footer-last">
+        <span>© {new Date().getFullYear()} Daniel Ouimet</span>
+        <a href="#" className="button">
+          Back to top <span className="arrow" aria-hidden="true">↑</span>
+        </a>
       </div>
     </footer>
   );

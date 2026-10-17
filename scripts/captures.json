@@ -1,0 +1,108 @@
+{
+  "massage-therapist": [
+    "/projects/massage-therapist/capture/desktop-1-home.jpg",
+    "/projects/massage-therapist/capture/loop.mp4",
+    "/projects/massage-therapist/capture/desktop-2-services.jpg",
+    "/projects/massage-therapist/capture/desktop-3-reviews.jpg",
+    "/projects/massage-therapist/capture/desktop-4-booking.jpg",
+    "/projects/massage-therapist/capture/phone-1.jpg"
+  ],
+  "physio-saint-lazare": [
+    "/projects/physio-saint-lazare/capture/desktop-1-home.jpg",
+    "/projects/physio-saint-lazare/capture/loop.mp4",
+    "/projects/physio-saint-lazare/capture/desktop-2-services.jpg",
+    "/projects/physio-saint-lazare/capture/desktop-3-team.jpg",
+    "/projects/physio-saint-lazare/capture/desktop-4-clinic.jpg",
+    "/projects/physio-saint-lazare/capture/phone-1.jpg"
+  ],
+  "physiofit": [
+    "/projects/physiofit/capture/desktop-1-start.jpg",
+    "/projects/physiofit/capture/loop.mp4",
+    "/projects/physiofit/capture/desktop-2-intake.jpg",
+    "/projects/physiofit/capture/desktop-3-intake-2.jpg",
+    "/projects/physiofit/capture/desktop-4-clinician.jpg",
+    "/projects/physiofit/capture/phone-1.jpg"
+  ],
+  "rental-property": [
+    "/projects/rental-property/capture/desktop-1-home.jpg",
+    "/projects/rental-property/capture/loop.mp4",
+    "/projects/rental-property/capture/desktop-2-features.jpg",
+    "/projects/rental-property/capture/desktop-3-how.jpg",
+    "/projects/rental-property/capture/phone-1.jpg"
+  ],
+  "mcgill-living": [
+    "/projects/mcgill-living/capture/desktop-1-home.jpg",
+    "/projects/mcgill-living/capture/loop.mp4",
+    "/projects/mcgill-living/capture/desktop-2-units.jpg",
+    "/projects/mcgill-living/capture/desktop-3-gallery.jpg",
+    "/projects/mcgill-living/capture/desktop-4-unit.jpg",
+    "/projects/mcgill-living/capture/phone-1.jpg"
+  ],
+  "mise": [
+    "/projects/mise/capture/desktop-1-home.jpg",
+    "/projects/mise/capture/loop.mp4",
+    "/projects/mise/capture/desktop-2-plan.jpg",
+    "/projects/mise/capture/desktop-3-how.jpg",
+    "/projects/mise/capture/desktop-4-how-page.jpg",
+    "/projects/mise/capture/phone-1.jpg"
+  ],
+  "likes-dislikes": [
+    "/projects/likes-dislikes/capture/desktop-1-home.jpg",
+    "/projects/likes-dislikes/capture/loop.mp4",
+    "/projects/likes-dislikes/capture/desktop-2-how.jpg",
+    "/projects/likes-dislikes/capture/desktop-3-results.jpg",
+    "/projects/likes-dislikes/capture/desktop-4-privacy.jpg",
+    "/projects/likes-dislikes/capture/phone-1.jpg"
+  ],
+  "freeze-frame": [
+    "/projects/freeze-frame/capture/desktop-3-hints.jpg",
+    "/projects/freeze-frame/capture/desktop-1-setup.jpg",
+    "/projects/freeze-frame/capture/loop.mp4",
+    "/projects/freeze-frame/capture/desktop-2-round.jpg",
+    "/projects/freeze-frame/capture/desktop-4-reveal.jpg",
+    "/projects/freeze-frame/capture/phone-1.jpg"
+  ],
+  "song-snippet": [
+    "/projects/song-snippet/capture/desktop-4-hints.jpg",
+    "/projects/song-snippet/capture/desktop-1-hub.jpg",
+    "/projects/song-snippet/capture/loop.mp4",
+    "/projects/song-snippet/capture/desktop-2-setup.jpg",
+    "/projects/song-snippet/capture/desktop-3-round.jpg",
+    "/projects/song-snippet/capture/desktop-5-reveal.jpg",
+    "/projects/song-snippet/capture/phone-1.jpg"
+  ],
+  "WheelOfNope": [
+    "/projects/WheelOfNope/capture/desktop-1-wheel.jpg",
+    "/projects/WheelOfNope/capture/loop.mp4",
+    "/projects/WheelOfNope/capture/desktop-2-asked.jpg",
+    "/projects/WheelOfNope/capture/phone-1.jpg"
+  ],
+  "vidscene": [
+    "/projects/vidscene/capture/desktop-1-review.jpg",
+    "/projects/vidscene/capture/loop.mp4",
+    "/projects/vidscene/capture/desktop-2-events.jpg",
+    "/projects/vidscene/capture/desktop-3-more-events.jpg",
+    "/projects/vidscene/capture/desktop-4-collection.jpg"
+  ],
+  "idp": [
+    "/projects/idp/capture/desktop-2-review.jpg",
+    "/projects/idp/capture/desktop-1-queue.jpg",
+    "/projects/idp/capture/loop.mp4",
+    "/projects/idp/capture/desktop-3-monitor.jpg",
+    "/projects/idp/capture/desktop-4-classes.jpg"
+  ],
+  "sub-finder": [
+    "/projects/sub-finder/capture/desktop-1-confirmed.jpg",
+    "/projects/sub-finder/capture/loop.mp4",
+    "/projects/sub-finder/capture/desktop-2-spares.jpg",
+    "/projects/sub-finder/capture/desktop-3-next.jpg",
+    "/projects/sub-finder/capture/desktop-4-filled.jpg"
+  ],
+  "rental-automation": [
+    "/projects/rental-automation/capture/desktop-1-matched.jpg",
+    "/projects/rental-automation/capture/loop.mp4",
+    "/projects/rental-automation/capture/desktop-2-email.jpg",
+    "/projects/rental-automation/capture/desktop-3-paid.jpg",
+    "/projects/rental-automation/capture/desktop-4-unpaid.jpg"
+  ]
+}

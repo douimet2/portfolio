@@ -1,17 +1,54 @@
+import Link from "next/link";
+import HeroReel from "./HeroReel";
+import { chapters, coverOf, countInWords, earliestMonth, orderedProjects, projects, videoOf } from "@/data/projects";
+import { mediaUrl } from "@/lib/media";
+
 export default function Hero() {
+  // The adults-only survey keeps its own tile but stays out of the first screen.
+  const slides = orderedProjects
+    .filter((p) => p.slug !== "likes-dislikes")
+    .filter((p) => !!coverOf(p))
+    // Apps with a moving picture lead the reel.
+    .sort((a, b) => Number(!!videoOf(b)) - Number(!!videoOf(a)))
+    .map((p) => {
+      const video = videoOf(p);
+      return { src: mediaUrl(coverOf(p)!), video: video ? mediaUrl(video) : undefined, title: p.title };
+    });
+
+  const since = earliestMonth();
+  const intro =
+    "I’m Daniel Ouimet. I build working apps with Claude, for clients, for my rental units, for my family and for game night.";
+
   return (
-    <section className="border-b border-gray-200 bg-white py-16 sm:py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-            AI-powered tools I've built
+    <>
+      <section className="hero" id="top" aria-label="Introduction">
+        <div className="hero-panel">
+          <Link href="/" className="hero-wordmark" data-rise style={{ "--i": 0 } as React.CSSProperties}>
+            Daniel Ouimet
+          </Link>
+          <h1 className="display hero-title" data-rise style={{ "--i": 1 } as React.CSSProperties}>
+            {countInWords(projects.length)} apps{since ? ` since ${since}` : ""}
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            A collection of side projects showcasing machine learning, computer vision, and AI
-            conversations. Built with modern tools and deployed to production.
-          </p>
+          <HeroReel slides={slides} />
+          <div className="hero-foot" data-rise style={{ "--i": 2 } as React.CSSProperties}>
+            <p>{intro}</p>
+            <a href="#clients" className="button">
+              See the apps <span className="arrow" aria-hidden="true">→</span>
+            </a>
+            <span />
+          </div>
         </div>
-      </div>
-    </section>
+        <nav className="swatches" aria-label="Chapters">
+          {chapters.map((c) => (
+            <a key={c.id} href={`#${c.id}`} style={{ background: c.field, color: c.ink }}>
+              <span>{c.title}</span>
+            </a>
+          ))}
+          <a href="#apps" style={{ background: "var(--surface)", color: "var(--ink)" }}>
+            <span>Every app</span>
+          </a>
+        </nav>
+      </section>
+    </>
   );
 }

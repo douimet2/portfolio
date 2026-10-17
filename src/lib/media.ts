@@ -1,16 +1,17 @@
-const RAW_BASE = 'https://raw.githubusercontent.com/douimet2/portfolio/main';
-
 /**
- * Media lives in the repo under public/projects/<slug>/. Vercel bakes public/
- * into the build, so a freshly committed file 404s until the next deploy lands.
- * Serving from raw.githubusercontent avoids that gap. Older entries were saved
- * as "/projects/..." paths, so rewrite those to the same raw origin.
+ * Media lives in the repo under public/projects/<slug>/.
+ *
+ * Files uploaded from the admin page are saved as full raw.githubusercontent URLs: Vercel bakes public/
+ * into the build, so a freshly committed upload would 404 until the next deploy lands, and the raw
+ * URL serves it immediately. Those pass through untouched.
+ *
+ * Paths like "/projects/<slug>/capture/..." are committed together with the code (the captures from
+ * scripts/capture.mjs), so they are in the build and are served from the site itself.
  */
 export function mediaUrl(path: string): string {
   if (/^https?:\/\//.test(path)) return path;
-  const clean = path.startsWith('/') ? path.slice(1) : path;
-  const withPublic = clean.startsWith('public/') ? clean : `public/${clean}`;
-  return `${RAW_BASE}/${withPublic}`;
+  const clean = path.replace(/^\/?(public\/)?/, '');
+  return `/${clean}`;
 }
 
 export function isVideo(path: string): boolean {
